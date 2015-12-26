@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Full Stack Web Development]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://pazams.com/"/>
-  <updated>2015-12-26T15:08:02.451Z</updated>
+  <updated>2015-12-26T19:12:51.520Z</updated>
   <id>http://pazams.com/</id>
   
   <author>
@@ -19,11 +19,11 @@
     <link href="http://pazams.com/Github-syncing-the-gh-pages-branch/"/>
     <id>http://pazams.com/Github-syncing-the-gh-pages-branch/</id>
     <published>2015-12-25T11:07:47.000Z</published>
-    <updated>2015-12-26T15:08:02.451Z</updated>
+    <updated>2015-12-26T19:12:51.520Z</updated>
     <content type="html"><![CDATA[<p>gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch needs to reference or contain files that originate from the master branch.</p>
 <a id="more"></a>
 <h2>Work flows</h2>
-<p>Different work flow suggestions exists (see <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/" target="_blank" rel="external">here</a>, and <a href="http://oli.jp/2011/github-pages-workflow/" target="_blank" rel="external">there</a>). These suggestions work, but I find that syncing the gh-pages so it would contain the latest code from master to be a bad practice. The DRY principle should be imposed here- <strong>each file should either be on master or gh-pages branch. Not both, and not resorting to use gh-pages as the master branch.</strong></p>
+<p>Different work flow suggestions exist (see <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/" target="_blank" rel="external">here</a>, and <a href="http://oli.jp/2011/github-pages-workflow/" target="_blank" rel="external">there</a>). These suggestions work, but I find that syncing the gh-pages so it would contain the latest code from master to be a bad practice. The DRY principle should be imposed here- <strong>each file should either be on master or gh-pages branch. Not both, and not resorting to use gh-pages as the master branch.</strong></p>
 <h2>A different approach</h2>
 <p>Create the gh-pages as an orphan branch (also Github's recommendation):</p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="comment">--orphan gh-pages</span></span><br><span class="line">git rm -rf .</span><br></pre></td></tr></table></figure>
@@ -58,7 +58,7 @@ The first time the files get generated on master, there's no problem switching t
     <link href="http://pazams.com/Programming-Driven-Design/"/>
     <id>http://pazams.com/Programming-Driven-Design/</id>
     <published>2015-12-21T22:19:41.000Z</published>
-    <updated>2015-12-26T11:39:02.176Z</updated>
+    <updated>2015-12-26T19:25:15.792Z</updated>
     <content type="html"><![CDATA[<p>The UI design of a new web application is usually driven by ux, product, art and other related considerations. Programming comes into play after the design is <a href="http://designmeister.com/2013/07/03/workflow-for-website-development/" target="_blank" rel="external">finished</a>. If programming considerations are taken at the UI design time, it will be limited just to verifying if a new feature is technically possible. The following example will try to demonstrate why in some applications, programming considerations should also drive the design.</p>
 <a id="more"></a>
 <h2>a responsive application example</h2>
@@ -131,7 +131,7 @@ The first time the files get generated on master, there's no problem switching t
 <p>Notice that in this setup, each heading size style needs just 1 rule, in contrast to 3 rules living in different media queries. The REM version reduced the lines of code count by 27%, but this can go up to 67% as the design gets bigger, and as also REMs can be utilized everywhere (padding,margin,line-height,etc'). This change is not only about reducing lines of code, it's about clarity, ease of maintenance &amp; development time.</p>
 <h2>Analysis</h2>
 <p>Was it a conscious decision to have <code>h2</code> in a slightly different ratio between devices? or a result of &quot;eye-balling&quot; the sizes on different .psd files?</p>
-<p>In either case, a developer approaching a designer with this issue will have a hard time selling there's an issue at all. The designer will not be keen to revise his art just so it would satisfy some &quot;math rules&quot;. In some way, the designer is right. However, the essence of a responsive design is broader than the design scope- one of the reasons for choosing responsive design over adaptive design is to have 1 code base. Having 1 code base where the UI is split in 3 different CSS chunks, each at their own media query, misses the original intention.</p>
+<p>In either case, a developer commenting on a finished design with this issue will have a hard time selling there's an issue at all. The designer will not be keen to revise his art just so it would satisfy some &quot;math rules&quot;. In some way, the designer is right. However, the essence of a responsive design is broader than the design scope- one of the reasons for choosing responsive design over adaptive design is to have 1 code base. Having 1 code base where the UI is split in 3 different CSS chunks, each at their own media query, misses the original intention.</p>
 <h2>Conclusion</h2>
 <p>The sequential work flow of &quot;design first, develop later&quot;, has some drawbacks when building some web applications as illustrated in the example above. Developers should have a way to drive design decisions that would otherwise be looked over. This suggestion is less significant if the design team also codes, or if they <a href="http://webdesign.tutsplus.com/articles/my-thoughts-on-designing-in-the-browser-vs-designing-in-photoshop--cms-23405" target="_blank" rel="external">design in the browser</a>.</p>
 ]]></content>
@@ -149,7 +149,7 @@ The first time the files get generated on master, there's no problem switching t
     <link href="http://pazams.com/Vim-how-to-delete-not-cut/"/>
     <id>http://pazams.com/Vim-how-to-delete-not-cut/</id>
     <published>2015-12-19T23:00:23.000Z</published>
-    <updated>2015-12-26T13:23:48.854Z</updated>
+    <updated>2015-12-26T18:54:47.836Z</updated>
     <content type="html"><![CDATA[<p>vim's delete command, is a core command used in every editing session. Delete combos such as <code>dw</code>, <code>dd</code>, <code>D</code>, <code>di&quot;</code> will make you happy you chose vim. However, there's a known caveat with the delete command.</p>
 <a id="more"></a>
 <h2>The problem</h2>

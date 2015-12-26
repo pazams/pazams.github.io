@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://pazams.com/Github-syncing-the-gh-pages-branch/index.html">
 <meta property="og:site_name" content="Pazams Blog">
 <meta property="og:description" content="gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch">
-<meta property="og:updated_time" content="2015-12-26T15:08:02.451Z">
+<meta property="og:updated_time" content="2015-12-26T19:12:51.520Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Github - syncing the gh-pages branch">
 <meta name="twitter:description" content="gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch">
@@ -108,7 +108,7 @@ ga('send', 'pageview');
         <p>gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch needs to reference or contain files that originate from the master branch.</p>
 <a id="more"></a>
 <h2>Work flows</h2>
-<p>Different work flow suggestions exists (see <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/" target="_blank" rel="external">here</a>, and <a href="http://oli.jp/2011/github-pages-workflow/" target="_blank" rel="external">there</a>). These suggestions work, but I find that syncing the gh-pages so it would contain the latest code from master to be a bad practice. The DRY principle should be imposed here- <strong>each file should either be on master or gh-pages branch. Not both, and not resorting to use gh-pages as the master branch.</strong></p>
+<p>Different work flow suggestions exist (see <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/" target="_blank" rel="external">here</a>, and <a href="http://oli.jp/2011/github-pages-workflow/" target="_blank" rel="external">there</a>). These suggestions work, but I find that syncing the gh-pages so it would contain the latest code from master to be a bad practice. The DRY principle should be imposed here- <strong>each file should either be on master or gh-pages branch. Not both, and not resorting to use gh-pages as the master branch.</strong></p>
 <h2>A different approach</h2>
 <p>Create the gh-pages as an orphan branch (also Github's recommendation):</p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="comment">--orphan gh-pages</span></span><br><span class="line">git rm -rf .</span><br></pre></td></tr></table></figure>
