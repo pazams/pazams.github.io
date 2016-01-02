@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Full Stack Web Development]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://pazams.com/"/>
-  <updated>2015-12-26T19:12:51.520Z</updated>
+  <updated>2016-01-01T16:01:22.273Z</updated>
   <id>http://pazams.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://pazams.com/Github-syncing-the-gh-pages-branch/"/>
     <id>http://pazams.com/Github-syncing-the-gh-pages-branch/</id>
     <published>2015-12-25T11:07:47.000Z</published>
-    <updated>2015-12-26T19:12:51.520Z</updated>
+    <updated>2016-01-01T16:01:22.273Z</updated>
     <content type="html"><![CDATA[<p>gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch needs to reference or contain files that originate from the master branch.</p>
 <a id="more"></a>
 <h2>Work flows</h2>
@@ -58,7 +58,7 @@ The first time the files get generated on master, there's no problem switching t
     <link href="http://pazams.com/Programming-Driven-Design/"/>
     <id>http://pazams.com/Programming-Driven-Design/</id>
     <published>2015-12-21T22:19:41.000Z</published>
-    <updated>2015-12-26T19:25:15.792Z</updated>
+    <updated>2016-01-01T16:01:22.273Z</updated>
     <content type="html"><![CDATA[<p>The UI design of a new web application is usually driven by ux, product, art and other related considerations. Programming comes into play after the design is <a href="http://designmeister.com/2013/07/03/workflow-for-website-development/" target="_blank" rel="external">finished</a>. If programming considerations are taken at the UI design time, it will be limited just to verifying if a new feature is technically possible. The following example will try to demonstrate why in some applications, programming considerations should also drive the design.</p>
 <a id="more"></a>
 <h2>a responsive application example</h2>
@@ -149,7 +149,7 @@ The first time the files get generated on master, there's no problem switching t
     <link href="http://pazams.com/Vim-how-to-delete-not-cut/"/>
     <id>http://pazams.com/Vim-how-to-delete-not-cut/</id>
     <published>2015-12-19T23:00:23.000Z</published>
-    <updated>2015-12-26T18:54:47.836Z</updated>
+    <updated>2015-12-26T13:23:48.854Z</updated>
     <content type="html"><![CDATA[<p>vim's delete command, is a core command used in every editing session. Delete combos such as <code>dw</code>, <code>dd</code>, <code>D</code>, <code>di&quot;</code> will make you happy you chose vim. However, there's a known caveat with the delete command.</p>
 <a id="more"></a>
 <h2>The problem</h2>
