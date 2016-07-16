@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Full Stack Web Development]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://pazams.com/"/>
-  <updated>2016-07-16T21:39:15.121Z</updated>
+  <updated>2016-07-16T21:50:48.341Z</updated>
   <id>http://pazams.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://pazams.com/Docker-recipes-modifying-code/"/>
     <id>http://pazams.com/Docker-recipes-modifying-code/</id>
     <published>2016-07-16T21:45:10.000Z</published>
-    <updated>2016-07-16T21:39:15.121Z</updated>
+    <updated>2016-07-16T21:50:48.341Z</updated>
     <content type="html"><![CDATA[<p>Docker's official documentation and tutorials show us a technique to modify a project's source code inside a running container. This is done by mounting the folder from the host into the container.</p>
 <a id="more"></a>
 <p>In the <a href="https://docs.docker.com/engine/tutorials/dockervolumes/" target="_blank" rel="external">docker volumes tutorial</a>, the technique can be implied from:</p>
@@ -36,7 +36,7 @@ Mounts the project directory on the host to /code inside the container allowing 
 <p>Once your image is optimized and build time nears zero, a little investment in a <a href="/Docker-recipes-basic-ci/">basic CI flow</a> will leave no motivation for the mounting technique.</p>
 <h2>But I need livereload to develop client side code</h2>
 <p>Then work locally and isolated with Mock API's where needed.
-No need to develop client side code inside containers in the first place.</p>
+No need to develop client side code inside a full running deployment in the first place.</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>Docker's official documentation and tutorials show us a technique to modify a project's source code inside a running container. This is done by mounting the folder from the host into the container.</p>]]>
