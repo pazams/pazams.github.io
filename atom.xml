@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Full Stack Web Development]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://pazams.com/"/>
-  <updated>2016-01-01T16:01:22.273Z</updated>
+  <updated>2016-07-16T21:39:15.121Z</updated>
   <id>http://pazams.com/</id>
   
   <author>
@@ -15,11 +15,119 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Docker recipes- modifying code inside containers]]></title>
+    <link href="http://pazams.com/Docker-recipes-modifying-code/"/>
+    <id>http://pazams.com/Docker-recipes-modifying-code/</id>
+    <published>2016-07-16T21:45:10.000Z</published>
+    <updated>2016-07-16T21:39:15.121Z</updated>
+    <content type="html"><![CDATA[<p>Docker's official documentation and tutorials show us a technique to modify a project's source code inside a running container. This is done by mounting the folder from the host into the container.</p>
+<a id="more"></a>
+<p>In the <a href="https://docs.docker.com/engine/tutorials/dockervolumes/" target="_blank" rel="external">docker volumes tutorial</a>, the technique can be implied from:</p>
+<p><code>docker run -d -P --name web -v /src/webapp:/opt/webapp training/webapp python app.py</code></p>
+<p>A more detailed explanation is given in the <a href="https://github.com/docker/compose/commits/master/docs/gettingstarted.md" target="_blank" rel="external">docker compose docs</a>:</p>
+<blockquote>
+<p>&quot;
+Mounts the project directory on the host to /code inside the container allowing you to modify the code without having to rebuild the image.
+&quot;</p>
+</blockquote>
+<p>The above explanation dates backs as early as <a href="https://github.com/docker/compose/commit/f60621ee1bbed066bb36fb3e78f7b9ed32bc3c4c#diff-1a523bd9fa0dbf998008b37579210e12" target="_blank" rel="external">Jan 2014</a>. Aside of the official docs, this technique is also discussed in <a href="https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077" target="_blank" rel="external">forums</a>.  All of these references might suggest that the practice of modifying code inside containers has a justification.</p>
+<h2>There is no justification for modifying code inside containers</h2>
+<p>When your Dockerfile produces optimized docker images and layers, a code modification of your app or service will affect the top most layers. Essentially only the changed source gets built, while the rest of the layers are served from cache. Therefore, building a new image after modifying source code should take a few seconds (More on <a href="https://dzone.com/articles/optimizing-docker-images-for-image-size-and-build" target="_blank" rel="external">optimizing images</a>, and specifically in <a href="http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/" target="_blank" rel="external">NodeJS</a>).</p>
+<p>Once your image is optimized and build time nears zero, a little investment in a <a href="/Docker-recipes-basic-ci/">basic CI flow</a> will leave no motivation for the mounting technique.</p>
+<h2>But I need livereload to develop client side code</h2>
+<p>Then work locally and isolated with Mock API's where needed.
+No need to develop client side code inside containers in the first place.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Docker's official documentation and tutorials show us a technique to modify a project's source code inside a running container. This is done by mounting the folder from the host into the container.</p>]]>
+    
+    </summary>
+    
+      <category term="docker container mount modify code" scheme="http://pazams.com/tags/docker-container-mount-modify-code/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Docker recipes- basic continuous integration]]></title>
+    <link href="http://pazams.com/Docker-recipes-basic-ci/"/>
+    <id>http://pazams.com/Docker-recipes-basic-ci/</id>
+    <published>2016-07-16T21:32:17.000Z</published>
+    <updated>2016-07-16T21:39:53.593Z</updated>
+    <content type="html"><![CDATA[<p>The process of building docker images should be integrated into your CI pipeline.</p>
+<a id="more"></a>
+<h2>The obvious approach</h2>
+<p>A standard solution is to setup an automated build between your image registry and your source control.
+The docker hub registry currently <a href="https://docs.docker.com/docker-hub/builds/" target="_blank" rel="external">supports</a> this with bitbucket and github.</p>
+<h2>A different approach</h2>
+<p>A basic solution is to run docker build with these considerations:</p>
+<ol>
+<li>use the local git repo HEAD's SHA as a tag.</li>
+<li>ensue the tag correctly represents the repository state, done by verifying nothing is in staging area or is untracked.</li>
+</ol>
+<p>Combining the above into a shell script:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/usr/bin/env bash</span></span><br><span class="line">image_name=<span class="string">"foo/boo"</span></span><br><span class="line"></span><br><span class="line">[[ -z $(git status --porcelain) ]] &amp;&amp; </span><br><span class="line">docker build -t <span class="string">"<span class="variable">$&#123;image_name&#125;</span>"</span>:$(git rev-parse --verify --short HEAD) . || </span><br><span class="line"><span class="built_in">echo</span> <span class="string">'oops looks like you need to git status and clean up'</span></span><br></pre></td></tr></table></figure>
+<p>Now integrate this script with your local build tool.
+For example, in NodeJS package.json:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "<span class="attribute">author</span>": <span class="value"><span class="string">"foo"</span></span>,</span><br><span class="line">  "<span class="attribute">name</span>": <span class="value"><span class="string">"boo"</span></span>,</span><br><span class="line">  "<span class="attribute">scripts</span>": <span class="value">&#123;</span><br><span class="line">    "<span class="attribute">publish</span>": <span class="value"><span class="string">"./publish.sh"</span></span>,</span><br><span class="line">    "<span class="attribute">build</span>": <span class="value"><span class="string">"# build"</span></span>,</span><br><span class="line">    "<span class="attribute">test</span>": <span class="value"><span class="string">"# test"</span></span>,</span><br><span class="line">    "<span class="attribute">prepublish</span>": <span class="value"><span class="string">"npm run build"</span></span>,</span><br><span class="line">    "<span class="attribute">prebuild</span>": <span class="value"><span class="string">"npm run test"</span></span>,</span><br><span class="line">  &#125;</span><br><span class="line"></span>&#125;</span><br></pre></td></tr></table></figure>
+<h2>Why</h2>
+<p>This method is handy if either:</p>
+<ul>
+<li>You want to work locally.</li>
+<li>You're still figuring which image registry you want to work with.</li>
+<li>You just want to test out a project with basic continuous integration before advancing to a complete solution.</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>The process of building docker images should be integrated into your CI pipeline.</p>]]>
+    
+    </summary>
+    
+      <category term="docker container orchestrator continuous integration ci" scheme="http://pazams.com/tags/docker-container-orchestrator-continuous-integration-ci/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Cattle harakiri - A pattern for orchestrated containers]]></title>
+    <link href="http://pazams.com/Cattle-harakiri-pattern/"/>
+    <id>http://pazams.com/Cattle-harakiri-pattern/</id>
+    <published>2016-07-14T15:00:00.000Z</published>
+    <updated>2016-07-16T15:36:54.772Z</updated>
+    <content type="html"><![CDATA[<p>In most cases, a service or app should take measures to keep itself running while monitoring and logging unexpected behaviors. Retrospectively inspection of logs and monitors can help identify the cause of these behaviors and fix the underlaying cause.</p>
+<a id="more"></a>
+<h2>TL;DR</h2>
+<img src="../images/cattle-harakiri-pattern.png">
+<h2>The idea</h2>
+<p>With the rising use of containers and orchestrators, we can revise the way apps and services choose to maintain their running status. Health checks play an essential role in service orchestration. Detection of an unhealthy container/instance allows the orchestrator the schedule a replacement. Consider now a service is in a <em>state</em> where some execution path is constantly erroring out. While monitoring and logging is still important, a container can choose to perform &quot;harakiri&quot; and let the health check and orchestrator pick up and provision a new healthy replica. The state mentioned above differs from the state in &quot;stateless services&quot;.  The later refers to the state of interaction between the consumer and service, with 'stateless' allowing to easily balance the load across multiple instances. The 'state' type in this post refers to the inner state of service, which is unrelated to the former type.</p>
+<p>Consider for example a service performs some kind of <em>init</em>, therefore it transitions from &quot;before init&quot; state to &quot;after init&quot; state. This transition could possibly hiccup (a connection setup, mount, etc.). If an instance of the service decides to perform &quot;harakiri&quot;, it would allow a new instance a chance for a clean transition where the first didn't. If ALL your services do not hold any internal state, then your stack must be entirely based on lambda serverless computing, and are way cooler than this post :)</p>
+<h2>But shouldn't health check detect these sick containers?</h2>
+<p>Health checks should remain simple and detect &quot;Dead&quot; containers. &quot;Dead&quot; should be based on the service type (response time, response type, etc.). &quot;Dead&quot; should not be defined on implementation details of the service as this will form tight coupling between service implementation and health check. In relation to the illustration above- a health check should not analyze whether a one legged crutching cow should be categorized as healthy or not.
+Instead, a container should use it's private information, and decide when it is sick enough to pull the plug on himself.</p>
+<h2>Notes</h2>
+<p>Obviously, this &quot;harakiri&quot; pattern is only applicable to services that are scaled to an extent, that if a single instance decides to terminate- no adverse effect will be noticed while the orchestrator provisions a replacement.
+A strategy pattern algorithm implementing the ideas above is a work in progress.
+Suggestions and ideas are most welcomed.</p>
+<h2>Clarifications</h2>
+<ul>
+<li>The idea of using animals to <a href="http://www.theregister.co.uk/2013/03/18/servers_pets_or_cattle_cern/" target="_blank" rel="external">describe services</a> is a custom in this field.</li>
+<li>This post does not suggest physically challenged animals are not worthy of living, nor does it promote animal cruelty.</li>
+<li>Strips were designed by me, with the help of some <a href="https://openclipart.org/" target="_blank" rel="external">clipart</a>.</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>In most cases, a service or app should take measures to keep itself running while monitoring and logging unexpected behaviors. Retrospectively inspection of logs and monitors can help identify the cause of these behaviors and fix the underlaying cause.</p>]]>
+    
+    </summary>
+    
+      <category term="docker container orchestrator" scheme="http://pazams.com/tags/docker-container-orchestrator/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Github - syncing the gh-pages branch]]></title>
     <link href="http://pazams.com/Github-syncing-the-gh-pages-branch/"/>
     <id>http://pazams.com/Github-syncing-the-gh-pages-branch/</id>
     <published>2015-12-25T11:07:47.000Z</published>
-    <updated>2016-01-01T16:01:22.273Z</updated>
+    <updated>2016-07-16T14:05:50.080Z</updated>
     <content type="html"><![CDATA[<p>gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch needs to reference or contain files that originate from the master branch.</p>
 <a id="more"></a>
 <h2>Work flows</h2>
@@ -58,7 +166,7 @@ The first time the files get generated on master, there's no problem switching t
     <link href="http://pazams.com/Programming-Driven-Design/"/>
     <id>http://pazams.com/Programming-Driven-Design/</id>
     <published>2015-12-21T22:19:41.000Z</published>
-    <updated>2016-01-01T16:01:22.273Z</updated>
+    <updated>2015-12-26T19:25:15.792Z</updated>
     <content type="html"><![CDATA[<p>The UI design of a new web application is usually driven by ux, product, art and other related considerations. Programming comes into play after the design is <a href="http://designmeister.com/2013/07/03/workflow-for-website-development/" target="_blank" rel="external">finished</a>. If programming considerations are taken at the UI design time, it will be limited just to verifying if a new feature is technically possible. The following example will try to demonstrate why in some applications, programming considerations should also drive the design.</p>
 <a id="more"></a>
 <h2>a responsive application example</h2>
@@ -149,7 +257,7 @@ The first time the files get generated on master, there's no problem switching t
     <link href="http://pazams.com/Vim-how-to-delete-not-cut/"/>
     <id>http://pazams.com/Vim-how-to-delete-not-cut/</id>
     <published>2015-12-19T23:00:23.000Z</published>
-    <updated>2015-12-26T13:23:48.854Z</updated>
+    <updated>2015-12-26T18:54:47.836Z</updated>
     <content type="html"><![CDATA[<p>vim's delete command, is a core command used in every editing session. Delete combos such as <code>dw</code>, <code>dd</code>, <code>D</code>, <code>di&quot;</code> will make you happy you chose vim. However, there's a known caveat with the delete command.</p>
 <a id="more"></a>
 <h2>The problem</h2>

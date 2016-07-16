@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Docker recipes- basic continuous integration | Pazams Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="The process of building docker images should be integrated into your CI pipeline.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker recipes- basic continuous integration">
+<meta property="og:url" content="http://pazams.com/Docker-recipes-basic-ci/index.html">
+<meta property="og:site_name" content="Pazams Blog">
+<meta property="og:description" content="The process of building docker images should be integrated into your CI pipeline.">
+<meta property="og:updated_time" content="2016-07-16T21:39:53.593Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker recipes- basic continuous integration">
+<meta name="twitter:description" content="The process of building docker images should be integrated into your CI pipeline.">
+  
+    <link rel="alternative" href="/atom.xml" title="Pazams Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71726858-1', 'auto');
+ga('send', 'pageview', location.pathname);
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+   
+    <div id="header-inner">
+      <nav id="main-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-github-link" class="nav-icon" href="https://github.com/pazams" title="Github"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <div id="search-form-wrap" class="nav-icon">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" id="search-form-input"  class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pazams.com"></form>
+        </div>
+      </nav>
+    </div>
+
+    <div id="header-title">
+      <div class="logo-wrap">
+        <a href="/" id="logo">
+            <div class="logo-img"></div>
+        </a>
+      </div>
+      
+<a href="/" id="subtitle">
+        <h2 id="subtitle-wrap">
+          Full Stack Web Development
+        </h2>
+</a>
+      
+    </div>
+
+    <div style="clear: both;"></div>
+    <div class="divider-section"></div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Docker-recipes-basic-ci" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/Docker-recipes-basic-ci/" class="article-date">
+  <time datetime="2016-07-16T21:32:17.000Z" itemprop="datePublished">Jul 17, 2016</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Docker recipes- basic continuous integration
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>The process of building docker images should be integrated into your CI pipeline.</p>
+<a id="more"></a>
+<h2>The obvious approach</h2>
+<p>A standard solution is to setup an automated build between your image registry and your source control.
+The docker hub registry currently <a href="https://docs.docker.com/docker-hub/builds/" target="_blank" rel="external">supports</a> this with bitbucket and github.</p>
+<h2>A different approach</h2>
+<p>A basic solution is to run docker build with these considerations:</p>
+<ol>
+<li>use the local git repo HEAD's SHA as a tag.</li>
+<li>ensue the tag correctly represents the repository state, done by verifying nothing is in staging area or is untracked.</li>
+</ol>
+<p>Combining the above into a shell script:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/usr/bin/env bash</span></span><br><span class="line">image_name=<span class="string">"foo/boo"</span></span><br><span class="line"></span><br><span class="line">[[ -z $(git status --porcelain) ]] &amp;&amp; </span><br><span class="line">docker build -t <span class="string">"<span class="variable">$&#123;image_name&#125;</span>"</span>:$(git rev-parse --verify --short HEAD) . || </span><br><span class="line"><span class="built_in">echo</span> <span class="string">'oops looks like you need to git status and clean up'</span></span><br></pre></td></tr></table></figure>
+<p>Now integrate this script with your local build tool.
+For example, in NodeJS package.json:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "<span class="attribute">author</span>": <span class="value"><span class="string">"foo"</span></span>,</span><br><span class="line">  "<span class="attribute">name</span>": <span class="value"><span class="string">"boo"</span></span>,</span><br><span class="line">  "<span class="attribute">scripts</span>": <span class="value">&#123;</span><br><span class="line">    "<span class="attribute">publish</span>": <span class="value"><span class="string">"./publish.sh"</span></span>,</span><br><span class="line">    "<span class="attribute">build</span>": <span class="value"><span class="string">"# build"</span></span>,</span><br><span class="line">    "<span class="attribute">test</span>": <span class="value"><span class="string">"# test"</span></span>,</span><br><span class="line">    "<span class="attribute">prepublish</span>": <span class="value"><span class="string">"npm run build"</span></span>,</span><br><span class="line">    "<span class="attribute">prebuild</span>": <span class="value"><span class="string">"npm run test"</span></span>,</span><br><span class="line">  &#125;</span><br><span class="line"></span>&#125;</span><br></pre></td></tr></table></figure>
+<h2>Why</h2>
+<p>This method is handy if either:</p>
+<ul>
+<li>You want to work locally.</li>
+<li>You're still figuring which image registry you want to work with.</li>
+<li>You just want to test out a project with basic continuous integration before advancing to a complete solution.</li>
+</ul>
+
+
+<div class="divider-section"></div>
+
+
+       </div>
+      
+      </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/Docker-recipes-modifying-code/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Docker recipes- modifying code inside containers
+        
+      </div>
+    </a>
+  
+  
+    <a href="/Cattle-harakiri-pattern/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Cattle harakiri - A pattern for orchestrated containers</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Maor Zamski<br>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'pazams';
+  
+  var disqus_url = 'http://pazams.com/Docker-recipes-basic-ci/';
+
+    var disqus_config = function () {
+        this.page.url = disqus_url;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = disqus_url; // find a better indentifier?
+    };
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//pazams.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+
+  
+
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
