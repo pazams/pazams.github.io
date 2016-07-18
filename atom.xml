@@ -91,30 +91,32 @@ For example, in NodeJS package.json:</p>
     <link href="http://pazams.com/Cattle-harakiri-pattern/"/>
     <id>http://pazams.com/Cattle-harakiri-pattern/</id>
     <published>2016-07-14T15:00:00.000Z</published>
-    <updated>2016-07-16T15:36:54.772Z</updated>
-    <content type="html"><![CDATA[<p>In most cases, a service or app should take measures to keep itself running while monitoring and logging unexpected behaviors. Retrospectively inspection of logs and monitors can help identify the cause of these behaviors and fix the underlaying cause.</p>
+    <updated>2016-07-18T08:18:29.736Z</updated>
+    <content type="html"><![CDATA[<p>Should micro-services kill themselves?</p>
 <a id="more"></a>
 <h2>TL;DR</h2>
 <img src="../images/cattle-harakiri-pattern.png">
 <h2>The idea</h2>
-<p>With the rising use of containers and orchestrators, we can revise the way apps and services choose to maintain their running status. Health checks play an essential role in service orchestration. Detection of an unhealthy container/instance allows the orchestrator the schedule a replacement. Consider now a service is in a <em>state</em> where some execution path is constantly erroring out. While monitoring and logging is still important, a container can choose to perform &quot;harakiri&quot; and let the health check and orchestrator pick up and provision a new healthy replica. The state mentioned above differs from the state in &quot;stateless services&quot;.  The later refers to the state of interaction between the consumer and service, with 'stateless' allowing to easily balance the load across multiple instances. The 'state' type in this post refers to the inner state of service, which is unrelated to the former type.</p>
-<p>Consider for example a service performs some kind of <em>init</em>, therefore it transitions from &quot;before init&quot; state to &quot;after init&quot; state. This transition could possibly hiccup (a connection setup, mount, etc.). If an instance of the service decides to perform &quot;harakiri&quot;, it would allow a new instance a chance for a clean transition where the first didn't. If ALL your services do not hold any internal state, then your stack must be entirely based on lambda serverless computing, and are way cooler than this post :)</p>
+<p>With the rising use of containers and orchestrators, we can revise the way micro-services choose to maintain their running state. Health checks play an essential role in service orchestration. Detection of an unhealthy container/instance allows the orchestrator to order a replacement. Consider now that a service is in a <em>state</em> where some execution path is constantly failing. While monitoring and logging is still important, a container can choose to perform &quot;harakiri&quot; and let the health check and orchestrator pick up and provision a new healthy replica.
+Consider for example a service that performs some kind of <em>init</em> and transitions from &quot;before init&quot; state to &quot;after init&quot; state. This transition could possibly hiccup (a connection setup, mount, etc.). If an instance of the service decides to perform &quot;harakiri&quot;, it would allow a new instance a chance for a clean transition where the first didn't.</p>
 <h2>But shouldn't health check detect these sick containers?</h2>
-<p>Health checks should remain simple and detect &quot;Dead&quot; containers. &quot;Dead&quot; should be based on the service type (response time, response type, etc.). &quot;Dead&quot; should not be defined on implementation details of the service as this will form tight coupling between service implementation and health check. In relation to the illustration above- a health check should not analyze whether a one legged crutching cow should be categorized as healthy or not.
-Instead, a container should use it's private information, and decide when it is sick enough to pull the plug on himself.</p>
+<p>Health checks should remain simple and detect &quot;Dead&quot; containers. &quot;Dead&quot; should be based on the service type (response time, response type). &quot;Dead&quot; should not be defined by the implementation details of the service as this will form a tight coupling between the service implementation and the health check. In relation to the illustration above- the health check should not analyze whether a one-legged crutching cow should be categorized as healthy or not.
+Instead, the container should use its private information, and decide when it is sick enough to pull the plug on himself.</p>
 <h2>Notes</h2>
-<p>Obviously, this &quot;harakiri&quot; pattern is only applicable to services that are scaled to an extent, that if a single instance decides to terminate- no adverse effect will be noticed while the orchestrator provisions a replacement.
+<ul>
+<li>Obviously, this &quot;harakiri&quot; pattern is only applicable to services that are scaled to an extent, that if a single instance decides to terminate- no adverse effect will be noticed while the orchestrator provisions a replacement.
 A strategy pattern algorithm implementing the ideas above is a work in progress.
-Suggestions and ideas are most welcomed.</p>
+Suggestions and ideas are most welcomed.</li>
+<li>The 'state' mentioned above differs from the state in &quot;stateless services&quot;.  The latter refers to the state of interaction between the consumer and service, with 'stateless' allowing to easily balance the load across multiple instances. The 'state' type in this post refers to the inner state of service, which is unrelated to the former type. If ALL your services do not hold any internal state, then your stack must be entirely based on lambda serverless computing, and is way cooler than this post :)</li>
+</ul>
 <h2>Clarifications</h2>
 <ul>
-<li>The idea of using animals to <a href="http://www.theregister.co.uk/2013/03/18/servers_pets_or_cattle_cern/" target="_blank" rel="external">describe services</a> is a custom in this field.</li>
-<li>This post does not suggest physically challenged animals are not worthy of living, nor does it promote animal cruelty.</li>
+<li>The idea of using animals to <a href="http://www.theregister.co.uk/2013/03/18/servers_pets_or_cattle_cern/" target="_blank" rel="external">describe services</a> is a custom in this field. This post does not suggest physically challenged animals are not worthy of living, nor does it promote animal cruelty.</li>
 <li>Strips were designed by me, with the help of some <a href="https://openclipart.org/" target="_blank" rel="external">clipart</a>.</li>
 </ul>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>In most cases, a service or app should take measures to keep itself running while monitoring and logging unexpected behaviors. Retrospectively inspection of logs and monitors can help identify the cause of these behaviors and fix the underlaying cause.</p>]]>
+    <![CDATA[<p>Should micro-services kill themselves?</p>]]>
     
     </summary>
     
