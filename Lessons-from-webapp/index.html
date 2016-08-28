@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://pazams.com/Lessons-from-webapp/index.html">
 <meta property="og:site_name" content="Pazams Blog">
 <meta property="og:description" content="A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.">
-<meta property="og:updated_time" content="2016-08-28T13:25:28.144Z">
+<meta property="og:updated_time" content="2016-08-28T13:35:25.404Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lessons learned from an upcoming webapp">
 <meta name="twitter:description" content="A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.">
@@ -117,7 +117,7 @@ ga('send', 'pageview', location.pathname);
 <p>Choosing the 2nd method (swagger), proved to be better than the experience I had with the 1st method. When using api spec tools you get your api documented nicely and a mock server all for the same price. Also, the whole process seemed more concise and less hacky.</p>
 <p>When choosing to trap API calls at the client, you get mock data and logic laying around next to your frontend application files. You need to bundle them for development environment and exclude them from production environment. The logic for the contents of the mock, is actually server logic. In contrast, with a mock server, extra files for mocking is not an issue as long as they don't get required in production, and mock logic can be shared with real backend application logic.</p>
 <h2>Google Cloud Platform for the win</h2>
-<p>This was the first time I administered a kubernetes cluster intended for production use. I choose to go with gcloud simply by assuming a google container orchestrator works best with a google cloud provider. Since I was doing all the development, including ops, backend, frontend and db, I needed the easiest cloud solution to work with kubernetes. In a different scenario, I would inspect more and fiddle also with kubernetes on bare metal. Nonetheless, gcloud proved to be great:</p>
+<p>This was the first time I administered a kubernetes cluster intended for production use. I chose to go with gcloud simply by assuming a google container orchestrator works best with a google cloud provider. Since I was doing all the development, including ops, backend, frontend and db, I needed the easiest cloud solution to work with kubernetes. In a different scenario, I would inspect more and fiddle also with kubernetes on bare metal. Nonetheless, gcloud proved to be great:</p>
 <ul>
 <li>
 <p><code>gcloud</code>, <code>gsutil</code> are easy to work with.</p>
