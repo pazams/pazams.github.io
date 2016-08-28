@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://pazams.com/Docker-recipes-modifying-code/index.html">
 <meta property="og:site_name" content="Pazams Blog">
 <meta property="og:description" content="Docker&apos;s official documentation and tutorials show us a technique to modify a project&apos;s source code inside a running container. This is done by mounting the folder from the host into the container.">
-<meta property="og:updated_time" content="2016-08-28T10:23:10.536Z">
+<meta property="og:updated_time" content="2016-08-28T16:08:26.205Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker recipes- modifying code inside containers">
 <meta name="twitter:description" content="Docker&apos;s official documentation and tutorials show us a technique to modify a project&apos;s source code inside a running container. This is done by mounting the folder from the host into the container.">
@@ -117,8 +117,8 @@ Mounts the project directory on the host to /code inside the container allowing 
 </blockquote>
 <p>The above explanation dates backs as early as <a href="https://github.com/docker/compose/commit/f60621ee1bbed066bb36fb3e78f7b9ed32bc3c4c#diff-1a523bd9fa0dbf998008b37579210e12" target="_blank" rel="external">Jan 2014</a>. Aside of the official docs, this technique is also discussed in <a href="https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077" target="_blank" rel="external">forums</a>.  All of these references might suggest that the practice of modifying code inside containers has a justification.</p>
 <h2>There is no justification for modifying code inside containers</h2>
-<p>When your Dockerfile produces optimized docker images and layers, a code modification of your app or service will affect the top most layers. Essentially only the changed source gets built, while the rest of the layers are served from cache. Therefore, building and <strong>uploading</strong> a new image after modifying source code should take a few seconds (More on <a href="https://dzone.com/articles/optimizing-docker-images-for-image-size-and-build" target="_blank" rel="external">optimizing images</a>, and specifically in <a href="http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/" target="_blank" rel="external">NodeJS</a>).</p>
-<p>Once your image is optimized and build time nears zero, a little investment in a <a href="/Docker-recipes-basic-ci/">basic CI flow</a> will leave no motivation for the mounting technique.</p>
+<p>When your Dockerfile produces optimized docker images and layers, a code modification of your app or service will affect the top most layers. Essentially only the changed source gets built and uploaded your registry, while the rest of the layers are served from cache. Therefore, building and <strong>uploading</strong> a new image after modifying source code should take a few seconds (More on <a href="https://dzone.com/articles/optimizing-docker-images-for-image-size-and-build" target="_blank" rel="external">optimizing images</a>, and specifically in <a href="http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/" target="_blank" rel="external">NodeJS</a>).</p>
+<p>Once your image is optimized and upload time nears zero, a little investment in a <a href="/Docker-recipes-basic-ci/">basic CI flow</a> will leave no motivation for the mounting technique.</p>
 <h2>But I need livereload to develop client side code</h2>
 <p>Then work locally and isolated with Mock API's where needed.
 No need to develop client side code inside a full running deployment in the first place.</p>
