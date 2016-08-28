@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Full Stack Web Development]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://pazams.com/"/>
-  <updated>2016-07-16T21:50:48.341Z</updated>
+  <updated>2016-08-28T13:21:20.784Z</updated>
   <id>http://pazams.com/</id>
   
   <author>
@@ -15,11 +15,59 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Lessons learned from an upcoming webapp]]></title>
+    <link href="http://pazams.com/Lessons-from-webapp/"/>
+    <id>http://pazams.com/Lessons-from-webapp/</id>
+    <published>2016-08-28T12:30:00.000Z</published>
+    <updated>2016-08-28T13:21:20.784Z</updated>
+    <content type="html"><![CDATA[<p>A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.</p>
+<a id="more"></a>
+<h2>Mock server API <em>AT</em> server</h2>
+<p>Mocking the API between client and server allows both parts of the application to be developed independently. The server progress does not become a bottleneck for the client progress, and a mock can also be further utilized after the development of both is complete, for debugging puporses.</p>
+<p>The mock can be implemented either at client or server.</p>
+<ul>
+<li>At the client, this usually means <em>trapping</em> calls to the API, and delivering the appropriate mock data. With this method the call never leaves the browser. Libraries for this methods exist, for example Angular users have <a href="https://docs.angularjs.org/api/ngMockE2E/service/$httpBackend" target="_blank" rel="external">ngMockE2E/$httpBackend</a>.</li>
+<li>At the server, means you run a server that serves mock data for your client. Popular options include <a href="http://swagger.io/" target="_blank" rel="external">swagger</a> and <a href="https://apiblueprint.org/" target="_blank" rel="external">api blueprint</a>.</li>
+</ul>
+<p>Choosing the 2nd method (swagger), proved to be better than the experience I had with the 1st method. When using api spec tools you get your api documented nicely and a mock server all for the same price. Also, the whole process seemed more concise and less hacky.</p>
+<p>When choosing to trap API calls at the client, you get mock data and logic laying around next to your frontend application files. You need to bundle them for development environment and exclude them from production environment. The logic for the contents of the mock, is actually server logic. In contrast, with a mock server, extra files for mocking is not an issue as long as they don't get required in production, and mock logic can be shared with real backend application logic.</p>
+<h2>Google Cloud Platform for the win</h2>
+<p>This was the first time I administered a kubernetes cluster intended for production use. I choose to go with gcloud simply by assuming a google container orchestrator works best with a google cloud provider. Since I was doing all the development, including ops, backend, frontend and db, I needed the easiest cloud solution to work with kubernetes. In a different scenario, I would inspect more and fiddle also with kubernetes on bare metal. Nonetheless, gcloud proved to be great:</p>
+<ul>
+<li>
+<p><code>gcloud</code>, <code>gsutil</code> are easy to work with.</p>
+</li>
+<li>
+<p>The <em>console</em> (gcloud GUI), works nice, though can get buggy at times (some flows do not work for me in FF, chrome solves).</p>
+</li>
+<li>
+<p>The docs tutorials: short and concise, with smart hooks if you need to dive deep into a subject.</p>
+</li>
+<li>
+<p>Support- I had a problem with uploading images to gcloud container registry. It worked for me a few weeks back, and got broke a few weeks later. After battling it for a good 4 hours, I found a public email to contact the gcr team. I did not sign for any special support plan, yet within 40 minuets, I got a meaningful reply by a developer! (I eventually came up with a fix, more details at <a href="http://stackoverflow.com/a/39191145/4731675" target="_blank" rel="external">SO</a>, and to be fair maybe it was more of a docker bug then a
+gcloud one). Big ups for gcloud support!.</p>
+<p>If you hooked into AWS, keep it so. If not, give Google Cloud Platform a chance.</p>
+</li>
+</ul>
+<h2>There's no 2 in TEAM</h2>
+<p>I have a tendency to think that if a project is small enough, a team of 2 will suffice. The problem with this approach is some skill will always be missing. I am a developer. If I choose to collaborate with another developer, then we might deliver a good, bug free, product, but then user experience will not be optimal, and we will be clueless when it comes to marketing. If I choose to collaborate with a non-developer (as in this recent webapp), we'll get good product management and marketing, but then there's no code reviews, and time estimation for tasks can get volatile.</p>
+<p>3 is the new magic number, and a minimum for future projects.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.</p>]]>
+    
+    </summary>
+    
+      <category term="glcoud orchestrator kubernetes swagger" scheme="http://pazams.com/tags/glcoud-orchestrator-kubernetes-swagger/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Docker recipes- modifying code inside containers]]></title>
     <link href="http://pazams.com/Docker-recipes-modifying-code/"/>
     <id>http://pazams.com/Docker-recipes-modifying-code/</id>
     <published>2016-07-16T21:45:10.000Z</published>
-    <updated>2016-07-16T21:50:48.341Z</updated>
+    <updated>2016-08-28T10:23:10.536Z</updated>
     <content type="html"><![CDATA[<p>Docker's official documentation and tutorials show us a technique to modify a project's source code inside a running container. This is done by mounting the folder from the host into the container.</p>
 <a id="more"></a>
 <p>In the <a href="https://docs.docker.com/engine/tutorials/dockervolumes/" target="_blank" rel="external">docker volumes tutorial</a>, the technique can be implied from:</p>
@@ -32,7 +80,7 @@ Mounts the project directory on the host to /code inside the container allowing 
 </blockquote>
 <p>The above explanation dates backs as early as <a href="https://github.com/docker/compose/commit/f60621ee1bbed066bb36fb3e78f7b9ed32bc3c4c#diff-1a523bd9fa0dbf998008b37579210e12" target="_blank" rel="external">Jan 2014</a>. Aside of the official docs, this technique is also discussed in <a href="https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077" target="_blank" rel="external">forums</a>.  All of these references might suggest that the practice of modifying code inside containers has a justification.</p>
 <h2>There is no justification for modifying code inside containers</h2>
-<p>When your Dockerfile produces optimized docker images and layers, a code modification of your app or service will affect the top most layers. Essentially only the changed source gets built, while the rest of the layers are served from cache. Therefore, building a new image after modifying source code should take a few seconds (More on <a href="https://dzone.com/articles/optimizing-docker-images-for-image-size-and-build" target="_blank" rel="external">optimizing images</a>, and specifically in <a href="http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/" target="_blank" rel="external">NodeJS</a>).</p>
+<p>When your Dockerfile produces optimized docker images and layers, a code modification of your app or service will affect the top most layers. Essentially only the changed source gets built, while the rest of the layers are served from cache. Therefore, building and <strong>uploading</strong> a new image after modifying source code should take a few seconds (More on <a href="https://dzone.com/articles/optimizing-docker-images-for-image-size-and-build" target="_blank" rel="external">optimizing images</a>, and specifically in <a href="http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/" target="_blank" rel="external">NodeJS</a>).</p>
 <p>Once your image is optimized and build time nears zero, a little investment in a <a href="/Docker-recipes-basic-ci/">basic CI flow</a> will leave no motivation for the mounting technique.</p>
 <h2>But I need livereload to develop client side code</h2>
 <p>Then work locally and isolated with Mock API's where needed.
@@ -52,7 +100,7 @@ No need to develop client side code inside a full running deployment in the firs
     <link href="http://pazams.com/Docker-recipes-basic-ci/"/>
     <id>http://pazams.com/Docker-recipes-basic-ci/</id>
     <published>2016-07-16T21:32:17.000Z</published>
-    <updated>2016-07-16T21:39:53.593Z</updated>
+    <updated>2016-08-28T10:42:19.464Z</updated>
     <content type="html"><![CDATA[<p>The process of building docker images should be integrated into your CI pipeline.</p>
 <a id="more"></a>
 <h2>The obvious approach</h2>
@@ -129,7 +177,7 @@ Suggestions and ideas are most welcomed.</li>
     <link href="http://pazams.com/Github-syncing-the-gh-pages-branch/"/>
     <id>http://pazams.com/Github-syncing-the-gh-pages-branch/</id>
     <published>2015-12-25T11:07:47.000Z</published>
-    <updated>2016-07-16T14:05:50.080Z</updated>
+    <updated>2016-07-16T21:01:37.393Z</updated>
     <content type="html"><![CDATA[<p>gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch needs to reference or contain files that originate from the master branch.</p>
 <a id="more"></a>
 <h2>Work flows</h2>
@@ -168,7 +216,7 @@ The first time the files get generated on master, there's no problem switching t
     <link href="http://pazams.com/Programming-Driven-Design/"/>
     <id>http://pazams.com/Programming-Driven-Design/</id>
     <published>2015-12-21T22:19:41.000Z</published>
-    <updated>2015-12-26T19:25:15.792Z</updated>
+    <updated>2016-07-16T21:01:37.397Z</updated>
     <content type="html"><![CDATA[<p>The UI design of a new web application is usually driven by ux, product, art and other related considerations. Programming comes into play after the design is <a href="http://designmeister.com/2013/07/03/workflow-for-website-development/" target="_blank" rel="external">finished</a>. If programming considerations are taken at the UI design time, it will be limited just to verifying if a new feature is technically possible. The following example will try to demonstrate why in some applications, programming considerations should also drive the design.</p>
 <a id="more"></a>
 <h2>a responsive application example</h2>
@@ -259,7 +307,7 @@ The first time the files get generated on master, there's no problem switching t
     <link href="http://pazams.com/Vim-how-to-delete-not-cut/"/>
     <id>http://pazams.com/Vim-how-to-delete-not-cut/</id>
     <published>2015-12-19T23:00:23.000Z</published>
-    <updated>2015-12-26T18:54:47.836Z</updated>
+    <updated>2016-07-16T21:01:37.409Z</updated>
     <content type="html"><![CDATA[<p>vim's delete command, is a core command used in every editing session. Delete combos such as <code>dw</code>, <code>dd</code>, <code>D</code>, <code>di&quot;</code> will make you happy you chose vim. However, there's a known caveat with the delete command.</p>
 <a id="more"></a>
 <h2>The problem</h2>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Lessons learned from an upcoming webapp | Pazams Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lessons learned from an upcoming webapp">
+<meta property="og:url" content="http://pazams.com/Lessons-from-webapp/index.html">
+<meta property="og:site_name" content="Pazams Blog">
+<meta property="og:description" content="A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.">
+<meta property="og:updated_time" content="2016-08-28T13:21:20.784Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lessons learned from an upcoming webapp">
+<meta name="twitter:description" content="A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.">
+  
+    <link rel="alternative" href="/atom.xml" title="Pazams Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71726858-1', 'auto');
+ga('send', 'pageview', location.pathname);
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+   
+    <div id="header-inner">
+      <nav id="main-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-github-link" class="nav-icon" href="https://github.com/pazams" title="Github"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <div id="search-form-wrap" class="nav-icon">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" id="search-form-input"  class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pazams.com"></form>
+        </div>
+      </nav>
+    </div>
+
+    <div id="header-title">
+      <div class="logo-wrap">
+        <a href="/" id="logo">
+            <div class="logo-img"></div>
+        </a>
+      </div>
+      
+<a href="/" id="subtitle-wrap">
+        <h2 id="subtitle">
+          Full Stack Web Development
+        </h2>
+</a>
+      
+    </div>
+
+    <div style="clear: both;"></div>
+    <div class="divider-section"></div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Lessons-from-webapp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/Lessons-from-webapp/" class="article-date">
+  <time datetime="2016-08-28T12:30:00.000Z" itemprop="datePublished">Aug 28, 2016</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Lessons learned from an upcoming webapp
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.</p>
+<a id="more"></a>
+<h2>Mock server API <em>AT</em> server</h2>
+<p>Mocking the API between client and server allows both parts of the application to be developed independently. The server progress does not become a bottleneck for the client progress, and a mock can also be further utilized after the development of both is complete, for debugging puporses.</p>
+<p>The mock can be implemented either at client or server.</p>
+<ul>
+<li>At the client, this usually means <em>trapping</em> calls to the API, and delivering the appropriate mock data. With this method the call never leaves the browser. Libraries for this methods exist, for example Angular users have <a href="https://docs.angularjs.org/api/ngMockE2E/service/$httpBackend" target="_blank" rel="external">ngMockE2E/$httpBackend</a>.</li>
+<li>At the server, means you run a server that serves mock data for your client. Popular options include <a href="http://swagger.io/" target="_blank" rel="external">swagger</a> and <a href="https://apiblueprint.org/" target="_blank" rel="external">api blueprint</a>.</li>
+</ul>
+<p>Choosing the 2nd method (swagger), proved to be better than the experience I had with the 1st method. When using api spec tools you get your api documented nicely and a mock server all for the same price. Also, the whole process seemed more concise and less hacky.</p>
+<p>When choosing to trap API calls at the client, you get mock data and logic laying around next to your frontend application files. You need to bundle them for development environment and exclude them from production environment. The logic for the contents of the mock, is actually server logic. In contrast, with a mock server, extra files for mocking is not an issue as long as they don't get required in production, and mock logic can be shared with real backend application logic.</p>
+<h2>Google Cloud Platform for the win</h2>
+<p>This was the first time I administered a kubernetes cluster intended for production use. I choose to go with gcloud simply by assuming a google container orchestrator works best with a google cloud provider. Since I was doing all the development, including ops, backend, frontend and db, I needed the easiest cloud solution to work with kubernetes. In a different scenario, I would inspect more and fiddle also with kubernetes on bare metal. Nonetheless, gcloud proved to be great:</p>
+<ul>
+<li>
+<p><code>gcloud</code>, <code>gsutil</code> are easy to work with.</p>
+</li>
+<li>
+<p>The <em>console</em> (gcloud GUI), works nice, though can get buggy at times (some flows do not work for me in FF, chrome solves).</p>
+</li>
+<li>
+<p>The docs tutorials: short and concise, with smart hooks if you need to dive deep into a subject.</p>
+</li>
+<li>
+<p>Support- I had a problem with uploading images to gcloud container registry. It worked for me a few weeks back, and got broke a few weeks later. After battling it for a good 4 hours, I found a public email to contact the gcr team. I did not sign for any special support plan, yet within 40 minuets, I got a meaningful reply by a developer! (I eventually came up with a fix, more details at <a href="http://stackoverflow.com/a/39191145/4731675" target="_blank" rel="external">SO</a>, and to be fair maybe it was more of a docker bug then a
+gcloud one). Big ups for gcloud support!.</p>
+<p>If you hooked into AWS, keep it so. If not, give Google Cloud Platform a chance.</p>
+</li>
+</ul>
+<h2>There's no 2 in TEAM</h2>
+<p>I have a tendency to think that if a project is small enough, a team of 2 will suffice. The problem with this approach is some skill will always be missing. I am a developer. If I choose to collaborate with another developer, then we might deliver a good, bug free, product, but then user experience will not be optimal, and we will be clueless when it comes to marketing. If I choose to collaborate with a non-developer (as in this recent webapp), we'll get good product management and marketing, but then there's no code reviews, and time estimation for tasks can get volatile.</p>
+<p>3 is the new magic number, and a minimum for future projects.</p>
+
+
+<div class="divider-section"></div>
+
+
+       </div>
+      
+      </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/Docker-recipes-modifying-code/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Docker recipes- modifying code inside containers</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Maor Zamski<br>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'pazams';
+  
+  var disqus_url = 'http://pazams.com/Lessons-from-webapp/';
+
+    var disqus_config = function () {
+        this.page.url = disqus_url;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = disqus_url; // find a better indentifier?
+    };
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//pazams.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+
+  
+
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
