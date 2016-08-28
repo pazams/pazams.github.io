@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Full Stack Web Development]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://pazams.com/"/>
-  <updated>2016-08-28T13:35:25.404Z</updated>
+  <updated>2016-08-28T13:56:13.476Z</updated>
   <id>http://pazams.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://pazams.com/Lessons-from-webapp/"/>
     <id>http://pazams.com/Lessons-from-webapp/</id>
     <published>2016-08-28T12:30:00.000Z</published>
-    <updated>2016-08-28T13:35:25.404Z</updated>
+    <updated>2016-08-28T13:56:13.476Z</updated>
     <content type="html"><![CDATA[<p>A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.</p>
 <a id="more"></a>
 <h2>Mock server API <em>AT</em> server</h2>
@@ -44,7 +44,7 @@
 <p>The docs tutorials: short and concise, with smart hooks if you need to dive deep into a subject.</p>
 </li>
 <li>
-<p>Support- I had a problem with uploading images to gcloud container registry. It worked for me a few weeks back, and got broke a few weeks later. After battling it for a good 4 hours, I found a public email to contact the gcr team. I did not sign for any special support plan, yet within 40 minuets, I got a meaningful reply by a developer! (I eventually came up with a fix, more details at <a href="http://stackoverflow.com/a/39191145/4731675" target="_blank" rel="external">SO</a>, and to be fair maybe it was more of a docker bug then a
+<p>Support- I had a problem with uploading images to gcloud container registry. It worked for me a few weeks back, and got broke a few weeks later. After battling it for a good 4 hours, I found a public email to contact the gcr team. I did not sign for any special support plan, yet within 40 minuets, I got a meaningful reply by a developer! (I eventually came up with a fix, more details at <a href="http://stackoverflow.com/a/39191145/4731675" target="_blank" rel="external">SO</a>, and to be fair maybe it was more of a docker bug than a
 gcloud one). Big ups for gcloud support!.</p>
 <p>If you're hooked into AWS, keep it so. If not, give Google Cloud Platform a chance.</p>
 </li>
