@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Full Stack Web Development]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://pazams.com/"/>
-  <updated>2016-08-28T13:56:13.476Z</updated>
+  <updated>2016-09-11T22:16:50.812Z</updated>
   <id>http://pazams.com/</id>
   
   <author>
@@ -19,21 +19,28 @@
     <link href="http://pazams.com/Lessons-from-webapp/"/>
     <id>http://pazams.com/Lessons-from-webapp/</id>
     <published>2016-08-28T12:30:00.000Z</published>
-    <updated>2016-08-28T13:56:13.476Z</updated>
+    <updated>2016-09-11T22:16:50.812Z</updated>
     <content type="html"><![CDATA[<p>A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.</p>
 <a id="more"></a>
-<h2>Mock server API <em>AT</em> server</h2>
-<p>Mocking the API between client and server allows both parts of the application to be developed independently. The server progress does not become a bottleneck for the client progress, and a mock can also be further utilized after the development of both is complete, for debugging puporses.</p>
+<h2>Mock server api <em>AT</em> server</h2>
+<p>Mocking the api between client and server allows both parts of the application to be developed independently. The server progress does not become a bottleneck for the client progress, and a mock can also be further utilized after the development of both is complete, for debugging puporses.</p>
 <p>The mock can be implemented either at client or server.</p>
 <ul>
-<li>At the client, this usually means <em>trapping</em> calls to the API, and delivering the appropriate mock data. With this method the call never leaves the browser. Libraries for this methods exist, for example Angular users have <a href="https://docs.angularjs.org/api/ngMockE2E/service/$httpBackend" target="_blank" rel="external">ngMockE2E/$httpBackend</a>.</li>
+<li>At the client, this usually means <em>trapping</em> calls to the api, and delivering the appropriate mock data. With this method the call never leaves the browser. Libraries for this methods exist, for example Angular users have <a href="https://docs.angularjs.org/api/ngMockE2E/service/$httpBackend" target="_blank" rel="external">ngMockE2E/$httpBackend</a>.</li>
 <li>At the server, means you run a server that serves mock data for your client. Popular options include <a href="http://swagger.io/" target="_blank" rel="external">swagger</a> and <a href="https://apiblueprint.org/" target="_blank" rel="external">api blueprint</a>.</li>
 </ul>
-<p>Choosing the 2nd method (swagger), proved to be better than the experience I had with the 1st method. When using api spec tools you get your api documented nicely and a mock server all for the same price. Also, the whole process seemed more concise and less hacky.</p>
-<p>When choosing to trap API calls at the client, you get mock data and logic laying around next to your frontend application files. You need to bundle them for development environment and exclude them from production environment. The logic for the contents of the mock, is actually server logic. In contrast, with a mock server, extra files for mocking is not an issue as long as they don't get required in production, and mock logic can be shared with real backend application logic.</p>
+<p>The exprience of mocking the data at the server (with swagger), proved to be better than the experience I had with mocking at the client:</p>
+<ul>
+<li>When using api spec tools you get your api documented nicely and a mock server all for the same price.</li>
+<li>Sometimes, a bit of processing and logic is needed to deliver the right mock data. This kind of logic, is actually server logic. When mocking at the server, the mock logic can be shared with real backend application logic.</li>
+<li>When choosing to trap api calls at the client, you get extra files laying around next to your frontend application files. These need special attention. They need to be bundled for development environment and excluded from production environment. In contrast, with a mock server, extra files for mocking is not an issue as long as they are not <em>loaded</em> in production environment.</li>
+</ul>
 <h2>Google Cloud Platform for the win</h2>
 <p>This was the first time I administered a kubernetes cluster intended for production use. I chose to go with gcloud simply by assuming a google container orchestrator works best with a google cloud provider. Since I was doing all the development, including ops, backend, frontend and db, I needed the easiest cloud solution to work with kubernetes. In a different scenario, I would inspect more and fiddle also with kubernetes on bare metal. Nonetheless, gcloud proved to be great:</p>
 <ul>
+<li>
+<p>Support- I had a problem with uploading images to gcloud container registry. It stopped working for me. After battling it for a while, I found a public email to contact the gcr team. <strong>I did not sign for any special support plan, yet within 40 minuets, I got a meaningful reply by a developer!</strong> (I eventually came up with a fix, more details at <a href="http://stackoverflow.com/a/39191145/4731675" target="_blank" rel="external">SO</a>). Big ups for gcloud support!.</p>
+</li>
 <li>
 <p><code>gcloud</code>, <code>gsutil</code> are easy to work with.</p>
 </li>
@@ -42,10 +49,6 @@
 </li>
 <li>
 <p>The docs tutorials: short and concise, with smart hooks if you need to dive deep into a subject.</p>
-</li>
-<li>
-<p>Support- I had a problem with uploading images to gcloud container registry. It worked for me a few weeks back, and got broke a few weeks later. After battling it for a good 4 hours, I found a public email to contact the gcr team. I did not sign for any special support plan, yet within 40 minuets, I got a meaningful reply by a developer! (I eventually came up with a fix, more details at <a href="http://stackoverflow.com/a/39191145/4731675" target="_blank" rel="external">SO</a>, and to be fair maybe it was more of a docker bug than a
-gcloud one). Big ups for gcloud support!.</p>
 <p>If you're hooked into AWS, keep it so. If not, give Google Cloud Platform a chance.</p>
 </li>
 </ul>
