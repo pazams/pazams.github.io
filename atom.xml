@@ -1,371 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[Pazams Blog]]></title>
-  <subtitle><![CDATA[Full Stack Web Development]]></subtitle>
+  <title>Pazams Blog</title>
+  
+  <subtitle>Full Stack Web Development</subtitle>
   <link href="/atom.xml" rel="self"/>
+  
   <link href="http://pazams.com/"/>
-  <updated>2016-09-11T22:16:50.812Z</updated>
+  <updated>2018-08-07T06:36:00.114Z</updated>
   <id>http://pazams.com/</id>
   
   <author>
-    <name><![CDATA[Maor Zamski]]></name>
+    <name>Maor Zamski</name>
     
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Lessons learned from an upcoming webapp]]></title>
-    <link href="http://pazams.com/Lessons-from-webapp/"/>
-    <id>http://pazams.com/Lessons-from-webapp/</id>
-    <published>2016-08-28T12:30:00.000Z</published>
-    <updated>2016-09-11T22:16:50.812Z</updated>
-    <content type="html"><![CDATA[<p>A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.</p>
-<a id="more"></a>
-<h2>Mock server api <em>AT</em> server</h2>
-<p>Mocking the api between client and server allows both parts of the application to be developed independently. The server progress does not become a bottleneck for the client progress, and a mock can also be further utilized after the development of both is complete, for debugging puporses.</p>
-<p>The mock can be implemented either at client or server.</p>
-<ul>
-<li>At the client, this usually means <em>trapping</em> calls to the api, and delivering the appropriate mock data. With this method the call never leaves the browser. Libraries for this methods exist, for example Angular users have <a href="https://docs.angularjs.org/api/ngMockE2E/service/$httpBackend" target="_blank" rel="external">ngMockE2E/$httpBackend</a>.</li>
-<li>At the server, means you run a server that serves mock data for your client. Popular options include <a href="http://swagger.io/" target="_blank" rel="external">swagger</a> and <a href="https://apiblueprint.org/" target="_blank" rel="external">api blueprint</a>.</li>
-</ul>
-<p>The exprience of mocking the data at the server (with swagger), proved to be better than the experience I had with mocking at the client:</p>
-<ul>
-<li>When using api spec tools you get your api documented nicely and a mock server all for the same price.</li>
-<li>Sometimes, a bit of processing and logic is needed to deliver the right mock data. This kind of logic, is actually server logic. When mocking at the server, the mock logic can be shared with real backend application logic.</li>
-<li>When choosing to trap api calls at the client, you get extra files laying around next to your frontend application files. These need special attention. They need to be bundled for development environment and excluded from production environment. In contrast, with a mock server, extra files for mocking is not an issue as long as they are not <em>loaded</em> in production environment.</li>
-</ul>
-<h2>Google Cloud Platform for the win</h2>
-<p>This was the first time I administered a kubernetes cluster intended for production use. I chose to go with gcloud simply by assuming a google container orchestrator works best with a google cloud provider. Since I was doing all the development, including ops, backend, frontend and db, I needed the easiest cloud solution to work with kubernetes. In a different scenario, I would inspect more and fiddle also with kubernetes on bare metal. Nonetheless, gcloud proved to be great:</p>
-<ul>
-<li>
-<p>Support- I had a problem with uploading images to gcloud container registry. It stopped working for me. After battling it for a while, I found a public email to contact the gcr team. <strong>I did not sign for any special support plan, yet within 40 minuets, I got a meaningful reply by a developer!</strong> (I eventually came up with a fix, more details at <a href="http://stackoverflow.com/a/39191145/4731675" target="_blank" rel="external">SO</a>). Big ups for gcloud support!.</p>
-</li>
-<li>
-<p><code>gcloud</code>, <code>gsutil</code> are easy to work with.</p>
-</li>
-<li>
-<p>The <em>console</em> (gcloud GUI), works nice, though can get buggy at times (some flows do not work for me in FF, chrome solves).</p>
-</li>
-<li>
-<p>The docs tutorials: short and concise, with smart hooks if you need to dive deep into a subject.</p>
-<p>If you're hooked into AWS, keep it so. If not, give Google Cloud Platform a chance.</p>
-</li>
-</ul>
-<h2>There's no 2 in TEAM</h2>
-<p>I have a tendency to think that if a project is small enough, a team of 2 will suffice. The problem with this approach is some skill will always be missing. I am a developer. If I choose to collaborate with another developer, then we might deliver a good, bug free, product, but then user experience will not be optimal, and we will be clueless when it comes to marketing. If I choose to collaborate with a non-developer (as in this recent webapp), we'll get good product management and marketing, but then there's no code reviews, and time estimation for tasks can get volatile.</p>
-<p>3 is the new magic number, and a minimum for future projects.</p>
-]]></content>
+    <title>JWT, Sessions, and Nightclubs</title>
+    <link href="http://pazams.com/JWT-Sessions-Nightclubs/"/>
+    <id>http://pazams.com/JWT-Sessions-Nightclubs/</id>
+    <published>2018-08-07T02:48:31.000Z</published>
+    <updated>2018-08-07T06:36:00.114Z</updated>
+    
+    <content type="html"><![CDATA[<p>Instead of discussing about different types of login mechanisms, let's first use a nightclub analogy.</p><a id="more"></a><h2>Preface</h2><p>Building a webapp with a user-login flow can be implemented via different mechanisms. These mechanisms can vary greatly, both in features and in architectural structures. This post will try to outline the inherent differences between two popular common choices: JWT (JSON Web Tokens) and sessions.Even though this discussion can be generalised at times to a discussion about &quot;Authorisation vs Authentication&quot;, it will steer away from the latter and focus on JWT and sessions. The description of how these solutions work is out of scope, but there are plenty of sources for each of these solutions.</p><h2>The nightclub analogy</h2><p>Instead of discussing about different types of login mechanisms, let's first use a nightclub analogy.</p><p>Consider you own and operate a nightclub and there's an upcoming private party. For this party, invited guests are entering, leaving, and re-entering. By which mechanism should the doormen grant access to these invited people? Let's consider two options:</p><h3>The wrist band</h3><p>Initial entry: A Guest shows his driver's license. He is initially verified against a guest list, if he is on it, then he gets a wrist band and is allowed entry.</p><p>Re-entry: A guest shows only his wrist band. The doormen have a wrist band reader, which allows them to quickly verify whether the wrist band is valid.</p><h3>The continuous guest list check</h3><p>Initial entry: A Guest shows his driver's license. He is initially verified against a guest list, if he is on it, then he is allowed entry.</p><p>Re-entry: Same process as initial entry- each entry requires the guest to be verified against a guest list. To make this flow more analogous to a webapp login flow, let's imagine that the first entry results in a custom venue ID with a random value. This ID is then used with subsequent visits, thus replacing the driver's license. Note that with both types of entry and ID, verification against a guest list is required.</p><p>Let's see how these mechanisms perform in different nightclub setups:</p><h3>The base case nightclub</h3><img src="../images/jwt-sessions-base-case.png"><p>This setup has just one nightclub with one single entrance.Both the &quot;wrist band&quot; mechanism and the &quot;continuous guest list check&quot; mechanism perform well.</p><h3>The multi-entrance nightclub</h3><img src="../images/jwt-sessions-multi-entrance.png"><p>This setup has one nightclub but with more than one entrance.The &quot;wrist band&quot; mechanism works the same as in the single entrance setup. As long as the doormen at each entrance posses the same wrist band reader for verification, it works well.On the other hand, the &quot;continuous guest list check&quot; mechanism faces a challenge - How can the doormen at difference entrances share a single, probably dynamic, guest list?Some possible solutions:</p><ol><li>Each entrance maintains a separate guest list. Each invite should contain information to guide the guest to which entrance they should enter. Re-entry is also required through the same entrance.</li><li>Place the guest list in a central location. All entrance doormen need to make a quick run to check it for each guest.</li></ol><h3>The nightclub that's part of a festival</h3><img src="../images/jwt-sessions-festival.png"><p>This setup has several nightclubs, all cooperating in a specific time frame to form a festival.The &quot;wrist band&quot; mechanism works the same as in the single entrance setup. As long as the doormen at each nightclub posses the same wrist band reader for verification, it works well.On the other hand, the &quot;continuous guest list check&quot; mechanism arguably cannot work any more. The two solutions proposed for the multi-entrance nightclub will not suffice under this setup: A central location for a guest list is not practical to keep referring to due to distance, and otherwise splitting up the lists will not let festival attendees visit more than a single venue.</p><h2>Tradeoffs</h2><p>We have seen wrist bands can be more flexible to fit in distributed setups, but there are some other tradeoffs to consider when choosing to go with the wrist band mechanism:</p><h3>Central point of failure</h3><p>The wrist band machine that creates the bands posses a secret. If this secret is compromised and ends up in malicious hands, some uninvited guests can create a counterfeit valid band and be granted entry.</p><h3>Banning guests</h3><p>Consider you are interested in kicking out a misbehaving guest and then banning them from re-entry. If while kicking them out you are able to confiscate away their wrist band, then the problem is solved. However, what if the guest was able to get away with the wrist band still on? To block them from re-entry, it would require doormen to maintain a &quot;black list&quot; and for them to refer to it upon each re-entry. While this does work, maintaining and working with a &quot;black list&quot; has effectively all the properties of maintaining and workingwith a white list, which is exactly how the &quot;continuous guest list check&quot; mechanism works. If the doormen need to refer to a list, of any type, for each re-entry, the wrist band becomes redundant.</p><h2>The analogy source</h2><p>Back to the engineering world, JWT are wrist bands, while sessions are just a guest list that is continuously being referred to.</p><ul><li>If a server with a session mechanism has multiple instances (multi-entrance), we can either put the sessions in a central session store (central guest list), or implement sticky-sessions (re-entry is required through the same entrance).</li><li>A JWT's secret for the signature part is a central point of failure. If it is compromised, all accounts are at risk.</li><li>The JWT mechanism does not cope well with invalidating (banning) tokens. A blacklist is required, and it is advised to keep the expiration time of JWT low.</li></ul><h2>Conclusion</h2><p>JWT and sessions each have tradeoffs, which should all be considered when choosing the tool for the job. JWT seem to be a popular choice, but is it always justified? Their straightforward implementation might be appealing when hacking a quick application, similar in some ways to why people might prefer to work with NoSQL databases in the same quick-n-dirty context.</p><p>When taking the time to architect a webapp, sessions should be considered. In particular, if you are thinking about using JWT with an hmac algorithm, you should ask yourself - can your application use sessions instead?</p><p>Often, JWT receive the &quot;scaling&quot; argument to their favor. Are JWT easier to scale? Yes! But will that ever be an issue? In my honest opnion - no! The most scale-heavy web applications are using sessions successfully, e.g. Gmail and the rest of G-suite applications. If your webapp becomes Google-scale, then you'll also have excellent engineers by your side who will squeeze out and optimize the performance of a session-based architecture.</p><p>Sessions go well with cookies. Cookies, however, can act as a double-edged swords. In a future post I will elaborate more on this subject. As long as you understand how CSRF exploits work and follow <a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet" target="_blank" rel="noopener">owasp recommendations</a> for a double layer protection, you are safe. Hopefully you can make use of a framework that has these protection layers built-in.</p>]]></content>
+    
     <summary type="html">
-    <![CDATA[<p>A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.</p>]]>
+    
+      &lt;p&gt;Instead of discussing about different types of login mechanisms, let&#39;s first use a nightclub analogy.&lt;/p&gt;
     
     </summary>
+    
+    
+      <category term="JWT session cookie CSRF" scheme="http://pazams.com/tags/JWT-session-cookie-CSRF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Lessons learned from an upcoming webapp</title>
+    <link href="http://pazams.com/Lessons-from-webapp/"/>
+    <id>http://pazams.com/Lessons-from-webapp/</id>
+    <published>2016-08-28T22:30:00.000Z</published>
+    <updated>2018-08-07T06:06:46.498Z</updated>
+    
+    <content type="html"><![CDATA[<p>A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.</p><a id="more"></a><h2>Mock server api <em>AT</em> server</h2><p>Mocking the api between client and server allows both parts of the application to be developed independently. The server progress does not become a bottleneck for the client progress, and a mock can also be further utilized after the development of both is complete, for debugging puporses.</p><p>The mock can be implemented either at client or server.</p><ul><li>At the client, this usually means <em>trapping</em> calls to the api, and delivering the appropriate mock data. With this method the call never leaves the browser. Libraries for this methods exist, for example Angular users have <a href="https://docs.angularjs.org/api/ngMockE2E/service/$httpBackend" target="_blank" rel="noopener">ngMockE2E/$httpBackend</a>.</li><li>At the server, means you run a server that serves mock data for your client. Popular options include <a href="http://swagger.io/" target="_blank" rel="noopener">swagger</a> and <a href="https://apiblueprint.org/" target="_blank" rel="noopener">api blueprint</a>.</li></ul><p>The exprience of mocking the data at the server (with swagger), proved to be better than the experience I had with mocking at the client:</p><ul><li>When using api spec tools you get your api documented nicely and a mock server all for the same price.</li><li>Sometimes, a bit of processing and logic is needed to deliver the right mock data. This kind of logic, is actually server logic. When mocking at the server, the mock logic can be shared with real backend application logic.</li><li>When choosing to trap api calls at the client, you get extra files laying around next to your frontend application files. These need special attention. They need to be bundled for development environment and excluded from production environment. In contrast, with a mock server, extra files for mocking is not an issue as long as they are not <em>loaded</em> in production environment.</li></ul><h2>Google Cloud Platform for the win</h2><p>This was the first time I administered a kubernetes cluster intended for production use. I chose to go with gcloud simply by assuming a google container orchestrator works best with a google cloud provider. Since I was doing all the development, including ops, backend, frontend and db, I needed the easiest cloud solution to work with kubernetes. In a different scenario, I would inspect more and fiddle also with kubernetes on bare metal. Nonetheless, gcloud proved to be great:</p><ul><li><p>Support- I had a problem with uploading images to gcloud container registry. It stopped working for me. After battling it for a while, I found a public email to contact the gcr team. <strong>I did not sign for any special support plan, yet within 40 minuets, I got a meaningful reply by a developer!</strong> (I eventually came up with a fix, more details at <a href="http://stackoverflow.com/a/39191145/4731675" target="_blank" rel="noopener">SO</a>). Big ups for gcloud support!.</p></li><li><p><code>gcloud</code>, <code>gsutil</code> are easy to work with.</p></li><li><p>The <em>console</em> (gcloud GUI), works nice, though can get buggy at times (some flows do not work for me in FF, chrome solves).</p></li><li><p>The docs tutorials: short and concise, with smart hooks if you need to dive deep into a subject.</p><p>If you're hooked into AWS, keep it so. If not, give Google Cloud Platform a chance.</p></li></ul><h2>There's no 2 in TEAM</h2><p>I have a tendency to think that if a project is small enough, a team of 2 will suffice. The problem with this approach is some skill will always be missing. I am a developer. If I choose to collaborate with another developer, then we might deliver a good, bug free, product, but then user experience will not be optimal, and we will be clueless when it comes to marketing. If I choose to collaborate with a non-developer (as in this recent webapp), we'll get good product management and marketing, but then there's no code reviews, and time estimation for tasks can get volatile.</p><p>3 is the new magic number, and a minimum for future projects.</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.&lt;/p&gt;
+    
+    </summary>
+    
     
       <category term="glcoud orchestrator kubernetes swagger" scheme="http://pazams.com/tags/glcoud-orchestrator-kubernetes-swagger/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Docker recipes- modifying code inside containers]]></title>
+    <title>Docker recipes- modifying code inside containers</title>
     <link href="http://pazams.com/Docker-recipes-modifying-code/"/>
     <id>http://pazams.com/Docker-recipes-modifying-code/</id>
-    <published>2016-07-16T21:45:10.000Z</published>
-    <updated>2016-10-08T20:19:41.916Z</updated>
-    <content type="html"><![CDATA[<p>Docker's official documentation and tutorials show us a technique to modify a project's source code inside a running container. This is done by mounting the folder from the host into the container.</p>
-<a id="more"></a>
-<p>In the <a href="https://docs.docker.com/engine/tutorials/dockervolumes/" target="_blank" rel="external">docker volumes tutorial</a>, the technique can be implied from:</p>
-<p><code>docker run -d -P --name web -v /src/webapp:/opt/webapp training/webapp python app.py</code></p>
-<p>A more detailed explanation is given in the <a href="https://github.com/docker/compose/commits/master/docs/gettingstarted.md" target="_blank" rel="external">docker compose docs</a>:</p>
-<blockquote>
-<p>&quot;
-Mounts the project directory on the host to /code inside the container allowing you to modify the code without having to rebuild the image.
-&quot;</p>
-</blockquote>
-<p>The above explanation dates backs as early as <a href="https://github.com/docker/compose/commit/f60621ee1bbed066bb36fb3e78f7b9ed32bc3c4c#diff-1a523bd9fa0dbf998008b37579210e12" target="_blank" rel="external">Jan 2014</a>. Aside of the official docs, this technique is also discussed in <a href="https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077" target="_blank" rel="external">forums</a>.  All of these references might suggest that the practice of modifying code inside containers has a justification.</p>
-<h2>There is no justification for modifying code inside containers</h2>
-<p>When your Dockerfile produces optimized docker images and layers, a code modification of your app or service will affect the top most layers. Essentially only the changed source gets built and uploaded to your registry, while the rest of the layers are served from cache. Therefore, building and <strong>uploading</strong> a new image after modifying source code should take a few seconds (More on <a href="https://dzone.com/articles/optimizing-docker-images-for-image-size-and-build" target="_blank" rel="external">optimizing images</a>, and specifically in <a href="http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/" target="_blank" rel="external">NodeJS</a>).</p>
-<p>Once your image is optimized and upload time nears zero, a little investment in a <a href="/Docker-recipes-basic-ci/">basic CI flow</a> will leave no motivation for the mounting technique.</p>
-<h2>&quot;But I need livereload to develop client side code&quot;</h2>
-<p>Then work locally and isolated with Mock API's where needed.
-No need to develop client side code inside a full running deployment in the first place.</p>
-]]></content>
+    <published>2016-07-17T07:45:10.000Z</published>
+    <updated>2018-08-07T06:06:46.498Z</updated>
+    
+    <content type="html"><![CDATA[<p>Docker's official documentation and tutorials show us a technique to modify a project's source code inside a running container. This is done by mounting the folder from the host into the container.</p><a id="more"></a><p>In the <a href="https://docs.docker.com/engine/tutorials/dockervolumes/" target="_blank" rel="noopener">docker volumes tutorial</a>, the technique can be implied from:</p><p><code>docker run -d -P --name web -v /src/webapp:/opt/webapp training/webapp python app.py</code></p><p>A more detailed explanation is given in the <a href="https://github.com/docker/compose/commits/master/docs/gettingstarted.md" target="_blank" rel="noopener">docker compose docs</a>:</p><blockquote><p>&quot;Mounts the project directory on the host to /code inside the container allowing you to modify the code without having to rebuild the image.&quot;</p></blockquote><p>The above explanation dates backs as early as <a href="https://github.com/docker/compose/commit/f60621ee1bbed066bb36fb3e78f7b9ed32bc3c4c#diff-1a523bd9fa0dbf998008b37579210e12" target="_blank" rel="noopener">Jan 2014</a>. Aside of the official docs, this technique is also discussed in <a href="https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077" target="_blank" rel="noopener">forums</a>.  All of these references might suggest that the practice of modifying code inside containers has a justification.</p><h2>There is no justification for modifying code inside containers</h2><p>When your Dockerfile produces optimized docker images and layers, a code modification of your app or service will affect the top most layers. Essentially only the changed source gets built and uploaded to your registry, while the rest of the layers are served from cache. Therefore, building and <strong>uploading</strong> a new image after modifying source code should take a few seconds (More on <a href="https://dzone.com/articles/optimizing-docker-images-for-image-size-and-build" target="_blank" rel="noopener">optimizing images</a>, and specifically in <a href="http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/" target="_blank" rel="noopener">NodeJS</a>).</p><p>Once your image is optimized and upload time nears zero, a little investment in a <a href="/Docker-recipes-basic-ci/">basic CI flow</a> will leave no motivation for the mounting technique.</p><h2>&quot;But I need livereload to develop client side code&quot;</h2><p>Then work locally and isolated with Mock API's where needed.No need to develop client side code inside a full running deployment in the first place.</p>]]></content>
+    
     <summary type="html">
-    <![CDATA[<p>Docker's official documentation and tutorials show us a technique to modify a project's source code inside a running container. This is done by mounting the folder from the host into the container.</p>]]>
+    
+      &lt;p&gt;Docker&#39;s official documentation and tutorials show us a technique to modify a project&#39;s source code inside a running container. This is done by mounting the folder from the host into the container.&lt;/p&gt;
     
     </summary>
+    
     
       <category term="docker container mount modify code" scheme="http://pazams.com/tags/docker-container-mount-modify-code/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Docker recipes- basic continuous integration]]></title>
+    <title>Docker recipes- basic continuous integration</title>
     <link href="http://pazams.com/Docker-recipes-basic-ci/"/>
     <id>http://pazams.com/Docker-recipes-basic-ci/</id>
-    <published>2016-07-16T21:32:17.000Z</published>
-    <updated>2016-10-08T20:16:34.088Z</updated>
-    <content type="html"><![CDATA[<p>The process of building docker images should be integrated into your CI pipeline.</p>
-<a id="more"></a>
-<h2>The obvious approach</h2>
-<p>A standard solution is to setup an automated build between your image registry and your source control.
-The docker hub registry currently <a href="https://docs.docker.com/docker-hub/builds/" target="_blank" rel="external">supports</a> this with bitbucket and github.</p>
-<h2>A different approach</h2>
-<p>A basic solution is to run docker build with these considerations:</p>
-<ol>
-<li>Use the local git repo HEAD's SHA as a tag.</li>
-<li>Ensure the tag correctly represents the repository state, done by verifying nothing is in staging area or is untracked.</li>
-</ol>
-<p>Combining the above into a shell script:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/usr/bin/env bash</span></span><br><span class="line">image_name=<span class="string">"foo/boo"</span></span><br><span class="line"></span><br><span class="line">[[ -z $(git status --porcelain) ]] &amp;&amp; </span><br><span class="line">docker build -t <span class="string">"<span class="variable">$&#123;image_name&#125;</span>"</span>:$(git rev-parse --verify --short HEAD) . || </span><br><span class="line"><span class="built_in">echo</span> <span class="string">'oops looks like you need to git status and clean up'</span></span><br></pre></td></tr></table></figure>
-<p>Now integrate this script with your local build tool.
-For example, in NodeJS package.json:</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "<span class="attribute">author</span>": <span class="value"><span class="string">"foo"</span></span>,</span><br><span class="line">  "<span class="attribute">name</span>": <span class="value"><span class="string">"boo"</span></span>,</span><br><span class="line">  "<span class="attribute">scripts</span>": <span class="value">&#123;</span><br><span class="line">    "<span class="attribute">publish</span>": <span class="value"><span class="string">"./publish.sh"</span></span>,</span><br><span class="line">    "<span class="attribute">build</span>": <span class="value"><span class="string">"# build"</span></span>,</span><br><span class="line">    "<span class="attribute">test</span>": <span class="value"><span class="string">"# test"</span></span>,</span><br><span class="line">    "<span class="attribute">prepublish</span>": <span class="value"><span class="string">"npm run build"</span></span>,</span><br><span class="line">    "<span class="attribute">prebuild</span>": <span class="value"><span class="string">"npm run test"</span></span>,</span><br><span class="line">  &#125;</span><br><span class="line"></span>&#125;</span><br></pre></td></tr></table></figure>
-<h2>Why</h2>
-<p>This method is handy if either:</p>
-<ul>
-<li>You want to work locally.</li>
-<li>You're still figuring which image registry you want to work with.</li>
-<li>You just want to test out a project with basic continuous integration before advancing to a complete solution.</li>
-</ul>
-]]></content>
+    <published>2016-07-17T07:32:17.000Z</published>
+    <updated>2018-08-07T06:06:46.497Z</updated>
+    
+    <content type="html"><![CDATA[<p>The process of building docker images should be integrated into your CI pipeline.</p><a id="more"></a><h2>The obvious approach</h2><p>A standard solution is to setup an automated build between your image registry and your source control.The docker hub registry currently <a href="https://docs.docker.com/docker-hub/builds/" target="_blank" rel="noopener">supports</a> this with bitbucket and github.</p><h2>A different approach</h2><p>A basic solution is to run docker build with these considerations:</p><ol><li>Use the local git repo HEAD's SHA as a tag.</li><li>Ensure the tag correctly represents the repository state, done by verifying nothing is in staging area or is untracked.</li></ol><p>Combining the above into a shell script:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line">image_name=<span class="string">"foo/boo"</span></span><br><span class="line"></span><br><span class="line">[[ -z $(git status --porcelain) ]] &amp;&amp; </span><br><span class="line">docker build -t <span class="string">"<span class="variable">$&#123;image_name&#125;</span>"</span>:$(git rev-parse --verify --short HEAD) . || </span><br><span class="line"><span class="built_in">echo</span> <span class="string">'oops looks like you need to git status and clean up'</span></span><br></pre></td></tr></table></figure><p>Now integrate this script with your local build tool.For example, in NodeJS package.json:</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"author"</span>: <span class="string">"foo"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"boo"</span>,</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"publish"</span>: <span class="string">"./publish.sh"</span>,</span><br><span class="line">    <span class="attr">"build"</span>: <span class="string">"# build"</span>,</span><br><span class="line">    <span class="attr">"test"</span>: <span class="string">"# test"</span>,</span><br><span class="line">    <span class="attr">"prepublish"</span>: <span class="string">"npm run build"</span>,</span><br><span class="line">    <span class="attr">"prebuild"</span>: <span class="string">"npm run test"</span>,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2>Why</h2><p>This method is handy if either:</p><ul><li>You want to work locally.</li><li>You're still figuring which image registry you want to work with.</li><li>You just want to test out a project with basic continuous integration before advancing to a complete solution.</li></ul>]]></content>
+    
     <summary type="html">
-    <![CDATA[<p>The process of building docker images should be integrated into your CI pipeline.</p>]]>
+    
+      &lt;p&gt;The process of building docker images should be integrated into your CI pipeline.&lt;/p&gt;
     
     </summary>
+    
     
       <category term="docker container orchestrator continuous integration ci" scheme="http://pazams.com/tags/docker-container-orchestrator-continuous-integration-ci/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Cattle harakiri - A pattern for orchestrated containers]]></title>
+    <title>Cattle harakiri - A pattern for orchestrated containers</title>
     <link href="http://pazams.com/Cattle-harakiri-pattern/"/>
     <id>http://pazams.com/Cattle-harakiri-pattern/</id>
-    <published>2016-07-14T15:00:00.000Z</published>
-    <updated>2016-07-18T08:18:29.736Z</updated>
-    <content type="html"><![CDATA[<p>Should micro-services kill themselves?</p>
-<a id="more"></a>
-<h2>TL;DR</h2>
-<img src="../images/cattle-harakiri-pattern.png">
-<h2>The idea</h2>
-<p>With the rising use of containers and orchestrators, we can revise the way micro-services choose to maintain their running state. Health checks play an essential role in service orchestration. Detection of an unhealthy container/instance allows the orchestrator to order a replacement. Consider now that a service is in a <em>state</em> where some execution path is constantly failing. While monitoring and logging is still important, a container can choose to perform &quot;harakiri&quot; and let the health check and orchestrator pick up and provision a new healthy replica.
-Consider for example a service that performs some kind of <em>init</em> and transitions from &quot;before init&quot; state to &quot;after init&quot; state. This transition could possibly hiccup (a connection setup, mount, etc.). If an instance of the service decides to perform &quot;harakiri&quot;, it would allow a new instance a chance for a clean transition where the first didn't.</p>
-<h2>But shouldn't health check detect these sick containers?</h2>
-<p>Health checks should remain simple and detect &quot;Dead&quot; containers. &quot;Dead&quot; should be based on the service type (response time, response type). &quot;Dead&quot; should not be defined by the implementation details of the service as this will form a tight coupling between the service implementation and the health check. In relation to the illustration above- the health check should not analyze whether a one-legged crutching cow should be categorized as healthy or not.
-Instead, the container should use its private information, and decide when it is sick enough to pull the plug on himself.</p>
-<h2>Notes</h2>
-<ul>
-<li>Obviously, this &quot;harakiri&quot; pattern is only applicable to services that are scaled to an extent, that if a single instance decides to terminate- no adverse effect will be noticed while the orchestrator provisions a replacement.
-A strategy pattern algorithm implementing the ideas above is a work in progress.
-Suggestions and ideas are most welcomed.</li>
-<li>The 'state' mentioned above differs from the state in &quot;stateless services&quot;.  The latter refers to the state of interaction between the consumer and service, with 'stateless' allowing to easily balance the load across multiple instances. The 'state' type in this post refers to the inner state of service, which is unrelated to the former type. If ALL your services do not hold any internal state, then your stack must be entirely based on lambda serverless computing, and is way cooler than this post :)</li>
-</ul>
-<h2>Clarifications</h2>
-<ul>
-<li>The idea of using animals to <a href="http://www.theregister.co.uk/2013/03/18/servers_pets_or_cattle_cern/" target="_blank" rel="external">describe services</a> is a custom in this field. This post does not suggest physically challenged animals are not worthy of living, nor does it promote animal cruelty.</li>
-<li>Strips were designed by me, with the help of some <a href="https://openclipart.org/" target="_blank" rel="external">clipart</a>.</li>
-</ul>
-]]></content>
+    <published>2016-07-15T01:00:00.000Z</published>
+    <updated>2018-08-07T06:06:46.497Z</updated>
+    
+    <content type="html"><![CDATA[<p>Should micro-services kill themselves?</p><a id="more"></a><h2>TL;DR</h2><img src="../images/cattle-harakiri-pattern.png"><h2>The idea</h2><p>With the rising use of containers and orchestrators, we can revise the way micro-services choose to maintain their running state. Health checks play an essential role in service orchestration. Detection of an unhealthy container/instance allows the orchestrator to order a replacement. Consider now that a service is in a <em>state</em> where some execution path is constantly failing. While monitoring and logging is still important, a container can choose to perform &quot;harakiri&quot; and let the health check and orchestrator pick up and provision a new healthy replica.Consider for example a service that performs some kind of <em>init</em> and transitions from &quot;before init&quot; state to &quot;after init&quot; state. This transition could possibly hiccup (a connection setup, mount, etc.). If an instance of the service decides to perform &quot;harakiri&quot;, it would allow a new instance a chance for a clean transition where the first didn't.</p><h2>But shouldn't health check detect these sick containers?</h2><p>Health checks should remain simple and detect &quot;Dead&quot; containers. &quot;Dead&quot; should be based on the service type (response time, response type). &quot;Dead&quot; should not be defined by the implementation details of the service as this will form a tight coupling between the service implementation and the health check. In relation to the illustration above- the health check should not analyze whether a one-legged crutching cow should be categorized as healthy or not.Instead, the container should use its private information, and decide when it is sick enough to pull the plug on himself.</p><h2>Notes</h2><ul><li>Obviously, this &quot;harakiri&quot; pattern is only applicable to services that are scaled to an extent, that if a single instance decides to terminate- no adverse effect will be noticed while the orchestrator provisions a replacement.A strategy pattern algorithm implementing the ideas above is a work in progress.Suggestions and ideas are most welcomed.</li><li>The 'state' mentioned above differs from the state in &quot;stateless services&quot;.  The latter refers to the state of interaction between the consumer and service, with 'stateless' allowing to easily balance the load across multiple instances. The 'state' type in this post refers to the inner state of service, which is unrelated to the former type. If ALL your services do not hold any internal state, then your stack must be entirely based on lambda serverless computing, and is way cooler than this post :)</li></ul><h2>Clarifications</h2><ul><li>The idea of using animals to <a href="http://www.theregister.co.uk/2013/03/18/servers_pets_or_cattle_cern/" target="_blank" rel="noopener">describe services</a> is a custom in this field. This post does not suggest physically challenged animals are not worthy of living, nor does it promote animal cruelty.</li><li>Strips were designed by me, with the help of some <a href="https://openclipart.org/" target="_blank" rel="noopener">clipart</a>.</li></ul>]]></content>
+    
     <summary type="html">
-    <![CDATA[<p>Should micro-services kill themselves?</p>]]>
+    
+      &lt;p&gt;Should micro-services kill themselves?&lt;/p&gt;
     
     </summary>
+    
     
       <category term="docker container orchestrator" scheme="http://pazams.com/tags/docker-container-orchestrator/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Github - syncing the gh-pages branch]]></title>
+    <title>Github - syncing the gh-pages branch</title>
     <link href="http://pazams.com/Github-syncing-the-gh-pages-branch/"/>
     <id>http://pazams.com/Github-syncing-the-gh-pages-branch/</id>
-    <published>2015-12-25T11:07:47.000Z</published>
-    <updated>2016-07-16T21:01:37.393Z</updated>
-    <content type="html"><![CDATA[<p>gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch needs to reference or contain files that originate from the master branch.</p>
-<a id="more"></a>
-<h2>Work flows</h2>
-<p>Different work flow suggestions exist (see <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/" target="_blank" rel="external">here</a>, and <a href="http://oli.jp/2011/github-pages-workflow/" target="_blank" rel="external">there</a>). These suggestions work, but I find that syncing the gh-pages so it would contain the latest code from master to be a bad practice. The DRY principle should be imposed here- <strong>each file should either be on master or gh-pages branch. Not both, and not resorting to use gh-pages as the master branch.</strong></p>
-<h2>A different approach</h2>
-<p>Create the gh-pages as an orphan branch (also Github's recommendation):</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="comment">--orphan gh-pages</span></span><br><span class="line">git rm -rf .</span><br></pre></td></tr></table></figure>
-<h3>dealing with special files</h3>
-<ol>
-<li>
-<p><strong>files from master that need to be referenced from gh-pages.</strong> For example- A demo page for a js client side widget. The demo should reference the distribution .js files. The easiest way the achieve this is to keep the distribution files in master, while inside gh-pages, use a 3rd party CDN to reference them such as <a href="https://rawgit.com/" target="_blank" rel="external">RawGit</a>.</p>
-</li>
-<li>
-<p><strong>files that get generated in master branch, but belong to gh-pages.</strong> For example- documentation files that are auto generated by a tool that scans the source files. This is a bit more tricky:</p>
-</li>
-</ol>
-<div style="margin: 0 20px;"> 
-The first time the files get generated on master, there's no problem switching to the gh-pages branch, and then stage and commit them. Trying to do so in the second time gets:
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error: The following untracked working tree files would be overwritten by checkout:</span><br></pre></td></tr></table></figure>
-<p>assuming the files are in a folder named <code>documentation</code>, the way around this is:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add documentation</span><br><span class="line">git stash</span><br><span class="line">git checkout gh-pages</span><br><span class="line">git checkout stash@&#123;<span class="number">0</span>&#125; -- documentation/</span><br></pre></td></tr></table></figure>
-<p>using <code>git checkout stash@{0}</code> is preferred here over <code>git stash pop</code>, since the stash command will result in conflicts which you will need to resolve manually (note the stash command doesn't take <code>--theirs</code>).</p>
-</div>
-]]></content>
+    <published>2015-12-25T21:07:47.000Z</published>
+    <updated>2018-08-07T06:06:46.498Z</updated>
+    
+    <content type="html"><![CDATA[<p>gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch needs to reference or contain files that originate from the master branch.</p><a id="more"></a><h2>Work flows</h2><p>Different work flow suggestions exist (see <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/" target="_blank" rel="noopener">here</a>, and <a href="http://oli.jp/2011/github-pages-workflow/" target="_blank" rel="noopener">there</a>). These suggestions work, but I find that syncing the gh-pages so it would contain the latest code from master to be a bad practice. The DRY principle should be imposed here- <strong>each file should either be on master or gh-pages branch. Not both, and not resorting to use gh-pages as the master branch.</strong></p><h2>A different approach</h2><p>Create the gh-pages as an orphan branch (also Github's recommendation):</p><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="comment">--orphan gh-pages</span></span><br><span class="line">git rm -rf .</span><br></pre></td></tr></table></figure><h3>dealing with special files</h3><ol><li><p><strong>files from master that need to be referenced from gh-pages.</strong> For example- A demo page for a js client side widget. The demo should reference the distribution .js files. The easiest way the achieve this is to keep the distribution files in master, while inside gh-pages, use a 3rd party CDN to reference them such as <a href="https://rawgit.com/" target="_blank" rel="noopener">RawGit</a>.</p></li><li><p><strong>files that get generated in master branch, but belong to gh-pages.</strong> For example- documentation files that are auto generated by a tool that scans the source files. This is a bit more tricky:</p></li></ol><div style="margin: 0 20px;"> The first time the files get generated on master, there's no problem switching to the gh-pages branch, and then stage and commit them. Trying to do so in the second time gets:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error: The following untracked working tree files would be overwritten by checkout:</span><br></pre></td></tr></table></figure><p>assuming the files are in a folder named <code>documentation</code>, the way around this is:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add documentation</span><br><span class="line">git stash</span><br><span class="line">git checkout gh-pages</span><br><span class="line">git checkout stash@&#123;0&#125; -- documentation/</span><br></pre></td></tr></table></figure><p>using <code>git checkout stash@{0}</code> is preferred here over <code>git stash pop</code>, since the stash command will result in conflicts which you will need to resolve manually (note the stash command doesn't take <code>--theirs</code>).</p></div>]]></content>
+    
     <summary type="html">
-    <![CDATA[<p>gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch needs to reference or contain files that originate from the master branch.</p>]]>
+    
+      &lt;p&gt;gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch needs to reference or contain files that originate from the master branch.&lt;/p&gt;
     
     </summary>
+    
     
       <category term="github gh-pages" scheme="http://pazams.com/tags/github-gh-pages/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Programming Driven Design]]></title>
+    <title>Programming Driven Design</title>
     <link href="http://pazams.com/Programming-Driven-Design/"/>
     <id>http://pazams.com/Programming-Driven-Design/</id>
-    <published>2015-12-21T22:19:41.000Z</published>
-    <updated>2016-07-16T21:01:37.397Z</updated>
-    <content type="html"><![CDATA[<p>The UI design of a new web application is usually driven by ux, product, art and other related considerations. Programming comes into play after the design is <a href="http://designmeister.com/2013/07/03/workflow-for-website-development/" target="_blank" rel="external">finished</a>. If programming considerations are taken at the UI design time, it will be limited just to verifying if a new feature is technically possible. The following example will try to demonstrate why in some applications, programming considerations should also drive the design.</p>
-<a id="more"></a>
-<h2>a responsive application example</h2>
-<p>A design team release a responsive design for a dev team. It contains the following heading sizes:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Phones</th>
-<th>Tablets</th>
-<th>Desktops</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>h1</td>
-<td>42px</td>
-<td>49px</td>
-<td>70px</td>
-</tr>
-<tr>
-<td>h2</td>
-<td>18px</td>
-<td>22px</td>
-<td>30px</td>
-</tr>
-<tr>
-<td>h3</td>
-<td>15px</td>
-<td>17.5px</td>
-<td>25px</td>
-</tr>
-</tbody>
-</table>
-<p>These styles translate to the following css rules (<a href="http://codepen.io/anon/pen/RrGQGj?editors=110" target="_blank" rel="external">codepen1</a>):</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Phones */</span></span><br><span class="line"><span class="at_rule">@<span class="keyword">media</span> only screen and (min-width : <span class="number">320px</span>)</span>&#123;</span><br><span class="line">    <span class="tag">h1</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">42px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">h2</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">18px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">h3</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">15px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Tablets */</span></span><br><span class="line"><span class="at_rule">@<span class="keyword">media</span> only screen and (min-width : <span class="number">768px</span>)</span>&#123;</span><br><span class="line">    <span class="tag">h1</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">49px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">h2</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">22px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">h3</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">17.5px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Desktops */</span></span><br><span class="line"><span class="at_rule">@<span class="keyword">media</span> only screen and (min-width : <span class="number">992px</span>)</span>&#123;</span><br><span class="line">    <span class="tag">h1</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">70px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">h2</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">30px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">h3</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">25px</span></span></span>;</span><br><span class="line">    &#125;</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>what if</strong> <code>h2</code> Tablet size would have dropped down 1 pixel to 21px:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Phones</th>
-<th>Tablets</th>
-<th>Desktops</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>h1</td>
-<td>42px</td>
-<td>49px</td>
-<td>70px</td>
-</tr>
-<tr>
-<td>h2</td>
-<td>18px</td>
-<td><strong>21px</strong></td>
-<td>30px</td>
-</tr>
-<tr>
-<td>h3</td>
-<td>15px</td>
-<td>17.5px</td>
-<td>25px</td>
-</tr>
-</tbody>
-</table>
-<p>Since now the headings relate with the same ratios between devices, the previous css rules can now be written with simple <a href="http://snook.ca/archives/html_and_css/font-size-with-rem" target="_blank" rel="external">REM</a> units (<a href="http://codepen.io/anon/pen/QyKQKY?editors=110" target="_blank" rel="external">codepen2</a>):</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Phones */</span></span><br><span class="line"><span class="at_rule">@<span class="keyword">media</span> only screen and (min-width : <span class="number">320px</span>)</span>&#123;</span><br><span class="line">    <span class="tag">html</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">6px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Tablets */</span></span><br><span class="line"><span class="at_rule">@<span class="keyword">media</span> only screen and (min-width : <span class="number">768px</span>)</span>&#123;</span><br><span class="line">    <span class="tag">html</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">7px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Desktops */</span></span><br><span class="line"><span class="at_rule">@<span class="keyword">media</span> only screen and (min-width : <span class="number">992px</span>)</span>&#123;</span><br><span class="line">    <span class="tag">html</span> <span class="rules">&#123;</span><br><span class="line">        <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">10px</span></span></span>;</span><br><span class="line">    &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">h1</span> <span class="rules">&#123;</span><br><span class="line">    <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">7rem</span></span></span>;</span><br><span class="line">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">h2</span> <span class="rules">&#123;</span><br><span class="line">    <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">3rem</span></span></span>;</span><br><span class="line">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">h3</span> <span class="rules">&#123;</span><br><span class="line">    <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">2.5rem</span></span></span>;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>Notice that in this setup, each heading size style needs just 1 rule, in contrast to 3 rules living in different media queries. The REM version reduced the lines of code count by 27%, but this can go up to 67% as the design gets bigger, and as also REMs can be utilized everywhere (padding,margin,line-height,etc'). This change is not only about reducing lines of code, it's about clarity, ease of maintenance &amp; development time.</p>
-<h2>Analysis</h2>
-<p>Was it a conscious decision to have <code>h2</code> in a slightly different ratio between devices? or a result of &quot;eye-balling&quot; the sizes on different .psd files?</p>
-<p>In either case, a developer commenting on a finished design with this issue will have a hard time selling there's an issue at all. The designer will not be keen to revise his art just so it would satisfy some &quot;math rules&quot;. In some way, the designer is right. However, the essence of a responsive design is broader than the design scope- one of the reasons for choosing responsive design over adaptive design is to have 1 code base. Having 1 code base where the UI is split in 3 different CSS chunks, each at their own media query, misses the original intention.</p>
-<h2>Conclusion</h2>
-<p>The sequential work flow of &quot;design first, develop later&quot;, has some drawbacks when building some web applications as illustrated in the example above. Developers should have a way to drive design decisions that would otherwise be looked over. This suggestion is less significant if the design team also codes, or if they <a href="http://webdesign.tutsplus.com/articles/my-thoughts-on-designing-in-the-browser-vs-designing-in-photoshop--cms-23405" target="_blank" rel="external">design in the browser</a>.</p>
-]]></content>
+    <published>2015-12-22T08:19:41.000Z</published>
+    <updated>2018-08-07T06:06:46.498Z</updated>
+    
+    <content type="html"><![CDATA[<p>The UI design of a new web application is usually driven by ux, product, art and other related considerations. Programming comes into play after the design is <a href="http://designmeister.com/2013/07/03/workflow-for-website-development/" target="_blank" rel="noopener">finished</a>. If programming considerations are taken at the UI design time, it will be limited just to verifying if a new feature is technically possible. The following example will try to demonstrate why in some applications, programming considerations should also drive the design.</p><a id="more"></a><h2>a responsive application example</h2><p>A design team release a responsive design for a dev team. It contains the following heading sizes:</p><table><thead><tr><th></th><th>Phones</th><th>Tablets</th><th>Desktops</th></tr></thead><tbody><tr><td>h1</td><td>42px</td><td>49px</td><td>70px</td></tr><tr><td>h2</td><td>18px</td><td>22px</td><td>30px</td></tr><tr><td>h3</td><td>15px</td><td>17.5px</td><td>25px</td></tr></tbody></table><p>These styles translate to the following css rules (<a href="http://codepen.io/anon/pen/RrGQGj?editors=110" target="_blank" rel="noopener">codepen1</a>):</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Phones */</span></span><br><span class="line">@<span class="keyword">media</span> only screen and (min-width : <span class="number">320px</span>)&#123;</span><br><span class="line">    <span class="selector-tag">h1</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">42px</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">h2</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">18px</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">h3</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">15px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Tablets */</span></span><br><span class="line">@<span class="keyword">media</span> only screen and (min-width : <span class="number">768px</span>)&#123;</span><br><span class="line">    <span class="selector-tag">h1</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">49px</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">h2</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">22px</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="selector-tag">h3</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">17.5px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Desktops */</span></span><br><span class="line">@<span class="keyword">media</span> only screen and (min-width : <span class="number">992px</span>)&#123;</span><br><span class="line">    <span class="selector-tag">h1</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">70px</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">h2</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">30px</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">h3</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">25px</span>;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><strong>what if</strong> <code>h2</code> Tablet size would have dropped down 1 pixel to 21px:</p><table><thead><tr><th></th><th>Phones</th><th>Tablets</th><th>Desktops</th></tr></thead><tbody><tr><td>h1</td><td>42px</td><td>49px</td><td>70px</td></tr><tr><td>h2</td><td>18px</td><td><strong>21px</strong></td><td>30px</td></tr><tr><td>h3</td><td>15px</td><td>17.5px</td><td>25px</td></tr></tbody></table><p>Since now the headings relate with the same ratios between devices, the previous css rules can now be written with simple <a href="http://snook.ca/archives/html_and_css/font-size-with-rem" target="_blank" rel="noopener">REM</a> units (<a href="http://codepen.io/anon/pen/QyKQKY?editors=110" target="_blank" rel="noopener">codepen2</a>):</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Phones */</span></span><br><span class="line">@<span class="keyword">media</span> only screen and (min-width : <span class="number">320px</span>)&#123;</span><br><span class="line">    <span class="selector-tag">html</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">6px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Tablets */</span></span><br><span class="line">@<span class="keyword">media</span> only screen and (min-width : <span class="number">768px</span>)&#123;</span><br><span class="line">    <span class="selector-tag">html</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">7px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Desktops */</span></span><br><span class="line">@<span class="keyword">media</span> only screen and (min-width : <span class="number">992px</span>)&#123;</span><br><span class="line">    <span class="selector-tag">html</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">10px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">h1</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">7rem</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">h2</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">3rem</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">h3</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">2.5rem</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Notice that in this setup, each heading size style needs just 1 rule, in contrast to 3 rules living in different media queries. The REM version reduced the lines of code count by 27%, but this can go up to 67% as the design gets bigger, and as also REMs can be utilized everywhere (padding,margin,line-height,etc'). This change is not only about reducing lines of code, it's about clarity, ease of maintenance &amp; development time.</p><h2>Analysis</h2><p>Was it a conscious decision to have <code>h2</code> in a slightly different ratio between devices? or a result of &quot;eye-balling&quot; the sizes on different .psd files?</p><p>In either case, a developer commenting on a finished design with this issue will have a hard time selling there's an issue at all. The designer will not be keen to revise his art just so it would satisfy some &quot;math rules&quot;. In some way, the designer is right. However, the essence of a responsive design is broader than the design scope- one of the reasons for choosing responsive design over adaptive design is to have 1 code base. Having 1 code base where the UI is split in 3 different CSS chunks, each at their own media query, misses the original intention.</p><h2>Conclusion</h2><p>The sequential work flow of &quot;design first, develop later&quot;, has some drawbacks when building some web applications as illustrated in the example above. Developers should have a way to drive design decisions that would otherwise be looked over. This suggestion is less significant if the design team also codes, or if they <a href="http://webdesign.tutsplus.com/articles/my-thoughts-on-designing-in-the-browser-vs-designing-in-photoshop--cms-23405" target="_blank" rel="noopener">design in the browser</a>.</p>]]></content>
+    
     <summary type="html">
-    <![CDATA[<p>The UI design of a new web application is usually driven by ux, product, art and other related considerations. Programming comes into play after the design is <a href="http://designmeister.com/2013/07/03/workflow-for-website-development/">finished</a>. If programming considerations are taken at the UI design time, it will be limited just to verifying if a new feature is technically possible. The following example will try to demonstrate why in some applications, programming considerations should also drive the design.</p>]]>
+    
+      &lt;p&gt;The UI design of a new web application is usually driven by ux, product, art and other related considerations. Programming comes into play after the design is &lt;a href=&quot;http://designmeister.com/2013/07/03/workflow-for-website-development/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;finished&lt;/a&gt;. If programming considerations are taken at the UI design time, it will be limited just to verifying if a new feature is technically possible. The following example will try to demonstrate why in some applications, programming considerations should also drive the design.&lt;/p&gt;
     
     </summary>
+    
     
       <category term="ui css" scheme="http://pazams.com/tags/ui-css/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Vim - how to delete (not cut)?]]></title>
+    <title>Vim - how to delete (not cut)?</title>
     <link href="http://pazams.com/Vim-how-to-delete-not-cut/"/>
     <id>http://pazams.com/Vim-how-to-delete-not-cut/</id>
-    <published>2015-12-19T23:00:23.000Z</published>
-    <updated>2016-07-16T21:01:37.409Z</updated>
-    <content type="html"><![CDATA[<p>vim's delete command, is a core command used in every editing session. Delete combos such as <code>dw</code>, <code>dd</code>, <code>D</code>, <code>di&quot;</code> will make you happy you chose vim. However, there's a known caveat with the delete command.</p>
-<a id="more"></a>
-<h2>The problem</h2>
-<p>the delete command also puts the deleted content into the default register, effectively making the 'delete' command a 'cut' command. This becomes a pain when after cutting one word, you realize you also need to delete some chars with <code>x</code> or words with <code>d</code> before pasting the original first word. The other <code>x</code>'s and <code>d</code>'s will override the first word.</p>
-<h2>Common solutions</h2>
-<ol>
-<li><strong>Always paste immediately after cutting.</strong> This will be OK if you use vim for the occasional editing in a <code>ssh</code> session. If you use vim as a primary editor, this solution won't suffice.</li>
-<li><strong>Use clipboard managers plugins such as YankRing / YankStack.</strong> This helps relief the pain as you can cycle through previous register entries, but it doesn't solve the problem at it's root- the need for different commands for 'cut' and 'delete'. You should use a clipboard manager at any case for yanks. My personal preference is to use OS clipboard managers over plugins.</li>
-<li><strong>Generate mappings to separate 'cut' and 'delete'.</strong> The Best solution. The related stackoverflow's question accepted <a href="http://stackoverflow.com/questions/11993851/vim-how-to-delete-not-cut" target="_blank" rel="external">answer</a> suggests a mapping which results in (assuming <code>leader</code> is set to <code>,</code>):</li>
-</ol>
-<div style="margin: 0 20px;"> 
-<table>
-<thead>
-<tr>
-<th>Keys</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>,d</code></td>
-<td>delete</td>
-</tr>
-<tr>
-<td><code>d</code></td>
-<td>cut</td>
-</tr>
-</tbody>
-</table>
-<p>I used this mapping for some time and it does the job quite well. But since 'delete' is much more frequent than 'cut' I switched the mappings around and create <a href="https://github.com/pazams/d-is-for-delete" target="_blank" rel="external">this repo</a> which results in (assuming <code>leader</code> is set to <code>,</code>):</p>
-<table>
-<thead>
-<tr>
-<th>Keys</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>d</code></td>
-<td>delete</td>
-</tr>
-<tr>
-<td><code>,d</code></td>
-<td>cut</td>
-</tr>
-</tbody>
-</table>
-<p>The mapping will also make <code>D</code>, <code>x</code>, <code>X</code> act as 'delete' rather than 'cut'.</p>
-</div>
-]]></content>
+    <published>2015-12-20T09:00:23.000Z</published>
+    <updated>2018-08-07T06:06:46.499Z</updated>
+    
+    <content type="html"><![CDATA[<p>vim's delete command, is a core command used in every editing session. Delete combos such as <code>dw</code>, <code>dd</code>, <code>D</code>, <code>di&quot;</code> will make you happy you chose vim. However, there's a known caveat with the delete command.</p><a id="more"></a><h2>The problem</h2><p>the delete command also puts the deleted content into the default register, effectively making the 'delete' command a 'cut' command. This becomes a pain when after cutting one word, you realize you also need to delete some chars with <code>x</code> or words with <code>d</code> before pasting the original first word. The other <code>x</code>'s and <code>d</code>'s will override the first word.</p><h2>Common solutions</h2><ol><li><strong>Always paste immediately after cutting.</strong> This will be OK if you use vim for the occasional editing in a <code>ssh</code> session. If you use vim as a primary editor, this solution won't suffice.</li><li><strong>Use clipboard managers plugins such as YankRing / YankStack.</strong> This helps relief the pain as you can cycle through previous register entries, but it doesn't solve the problem at it's root- the need for different commands for 'cut' and 'delete'. You should use a clipboard manager at any case for yanks. My personal preference is to use OS clipboard managers over plugins.</li><li><strong>Generate mappings to separate 'cut' and 'delete'.</strong> The Best solution. The related stackoverflow's question accepted <a href="http://stackoverflow.com/questions/11993851/vim-how-to-delete-not-cut" target="_blank" rel="noopener">answer</a> suggests a mapping which results in (assuming <code>leader</code> is set to <code>,</code>):</li></ol><div style="margin: 0 20px;"> <table><thead><tr><th>Keys</th><th>Result</th></tr></thead><tbody><tr><td><code>,d</code></td><td>delete</td></tr><tr><td><code>d</code></td><td>cut</td></tr></tbody></table><p>I used this mapping for some time and it does the job quite well. But since 'delete' is much more frequent than 'cut' I switched the mappings around and create <a href="https://github.com/pazams/d-is-for-delete" target="_blank" rel="noopener">this repo</a> which results in (assuming <code>leader</code> is set to <code>,</code>):</p><table><thead><tr><th>Keys</th><th>Result</th></tr></thead><tbody><tr><td><code>d</code></td><td>delete</td></tr><tr><td><code>,d</code></td><td>cut</td></tr></tbody></table><p>The mapping will also make <code>D</code>, <code>x</code>, <code>X</code> act as 'delete' rather than 'cut'.</p></div>]]></content>
+    
     <summary type="html">
-    <![CDATA[<p>vim's delete command, is a core command used in every editing session. Delete combos such as <code>dw</code>, <code>dd</code>, <code>D</code>, <code>di&quot;</code> will make you happy you chose vim. However, there's a known caveat with the delete command.</p>]]>
+    
+      &lt;p&gt;vim&#39;s delete command, is a core command used in every editing session. Delete combos such as &lt;code&gt;dw&lt;/code&gt;, &lt;code&gt;dd&lt;/code&gt;, &lt;code&gt;D&lt;/code&gt;, &lt;code&gt;di&amp;quot;&lt;/code&gt; will make you happy you chose vim. However, there&#39;s a known caveat with the delete command.&lt;/p&gt;
     
     </summary>
+    
     
   </entry>
   
