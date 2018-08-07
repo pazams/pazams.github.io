@@ -5,21 +5,21 @@
   
   <title>JWT, Sessions, and Nightclubs | Pazams Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Instead of discussing about different types of login mechanisms, let&apos;s first use a nightclub analogy.">
+  <meta name="description" content="JWT or Sessions, which one should you choose?">
 <meta name="keywords" content="JWT session cookie CSRF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JWT, Sessions, and Nightclubs">
 <meta property="og:url" content="http://pazams.com/JWT-Sessions-Nightclubs/index.html">
 <meta property="og:site_name" content="Pazams Blog">
-<meta property="og:description" content="Instead of discussing about different types of login mechanisms, let&apos;s first use a nightclub analogy.">
+<meta property="og:description" content="JWT or Sessions, which one should you choose?">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://pazams.com/images/jwt-sessions-base-case.png">
 <meta property="og:image" content="http://pazams.com/images/jwt-sessions-multi-entrance.png">
 <meta property="og:image" content="http://pazams.com/images/jwt-sessions-festival.png">
-<meta property="og:updated_time" content="2018-08-07T06:36:00.114Z">
+<meta property="og:updated_time" content="2018-08-07T07:10:39.813Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JWT, Sessions, and Nightclubs">
-<meta name="twitter:description" content="Instead of discussing about different types of login mechanisms, let&apos;s first use a nightclub analogy.">
+<meta name="twitter:description" content="JWT or Sessions, which one should you choose?">
 <meta name="twitter:image" content="http://pazams.com/images/jwt-sessions-base-case.png">
   
     <link rel="alternative" href="/atom.xml" title="Pazams Blog" type="application/atom+xml">
@@ -111,7 +111,7 @@ ga('send', 'pageview', location.pathname);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Instead of discussing about different types of login mechanisms, let's first use a nightclub analogy.</p>
+        <p>JWT or Sessions, which one should you choose?</p>
 <a id="more"></a>
 <h2>Preface</h2>
 <p>Building a webapp with a user-login flow can be implemented via different mechanisms. These mechanisms can vary greatly, both in features and in architectural structures. This post will try to outline the inherent differences between two popular common choices: JWT (JSON Web Tokens) and sessions.
@@ -120,11 +120,11 @@ Even though this discussion can be generalised at times to a discussion about &q
 <p>Instead of discussing about different types of login mechanisms, let's first use a nightclub analogy.</p>
 <p>Consider you own and operate a nightclub and there's an upcoming private party. For this party, invited guests are entering, leaving, and re-entering. By which mechanism should the doormen grant access to these invited people? Let's consider two options:</p>
 <h3>The wrist band</h3>
-<p>Initial entry: A Guest shows his driver's license. He is initially verified against a guest list, if he is on it, then he gets a wrist band and is allowed entry.</p>
-<p>Re-entry: A guest shows only his wrist band. The doormen have a wrist band reader, which allows them to quickly verify whether the wrist band is valid.</p>
+<p><strong>Initial entry:</strong> A Guest shows his driver's license. He is initially verified against a guest list, if he is on it, then he gets a wrist band and is allowed entry.</p>
+<p><strong>Re-entry:</strong> A guest shows only his wrist band. The doormen have a wrist band reader, which allows them to quickly verify whether the wrist band is valid.</p>
 <h3>The continuous guest list check</h3>
-<p>Initial entry: A Guest shows his driver's license. He is initially verified against a guest list, if he is on it, then he is allowed entry.</p>
-<p>Re-entry: Same process as initial entry- each entry requires the guest to be verified against a guest list. To make this flow more analogous to a webapp login flow, let's imagine that the first entry results in a custom venue ID with a random value. This ID is then used with subsequent visits, thus replacing the driver's license. Note that with both types of entry and ID, verification against a guest list is required.</p>
+<p><strong>Initial entry:</strong> A Guest shows his driver's license. He is initially verified against a guest list, if he is on it, then he is allowed entry.</p>
+<p><strong>Re-entry:</strong> Same process as initial entry- each entry requires the guest to be verified against a guest list. To make this flow more analogous to a webapp login flow, let's imagine that the first entry results in a custom venue ID with a random value. This ID is then used with subsequent visits, thus replacing the driver's license. Note that with both types of entry and ID, verification against a guest list is required.</p>
 <p>Let's see how these mechanisms perform in different nightclub setups:</p>
 <h3>The base case nightclub</h3>
 <img src="../images/jwt-sessions-base-case.png">
