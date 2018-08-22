@@ -1,0 +1,767 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Introduction · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="pages/internals/" />
+    
+    
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-71726858-1', 'auto');
+ga('send', 'pageview', location.pathname);
+</script>
+<!-- End Google Analytics -->
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter active" data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="pages/internals/">
+            
+                <a href="pages/internals/">
+            
+                    
+                    Internals
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="pages/internals/">
+            
+                <a href="pages/internals/#s-heapstack-memory-allocation">
+            
+                    
+                    (S) Heap/Stack Memory Allocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="pages/internals/">
+            
+                <a href="pages/internals/#s-garbage-collection">
+            
+                    
+                    (S) Garbage Collection
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="pages/internals/">
+            
+                <a href="pages/internals/#d-compilation">
+            
+                    
+                    (D) Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="pages/concurrency-parallelism/">
+            
+                <a href="pages/concurrency-parallelism/">
+            
+                    
+                    Concurrency & Parallelism
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="pages/concurrency-parallelism/">
+            
+                <a href="pages/concurrency-parallelism/#d-overview">
+            
+                    
+                    (D) Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="pages/concurrency-parallelism/">
+            
+                <a href="pages/concurrency-parallelism/#d-async-vs-sync-apis">
+            
+                    
+                    (D) Async vs Sync APIs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="pages/concurrency-parallelism/">
+            
+                <a href="pages/concurrency-parallelism/#d-sequential-and-concurrent-patterns">
+            
+                    
+                    (D) Sequential and Concurrent Patterns
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="pages/modules-packages/">
+            
+                <a href="pages/modules-packages/">
+            
+                    
+                    Modules / Packages
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="pages/modules-packages/">
+            
+                <a href="pages/modules-packages/#spec--practice">
+            
+                    
+                    Spec & Practice
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="pages/modules-packages/">
+            
+                <a href="pages/modules-packages/#management">
+            
+                    
+                    Management
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="pages/error-handling/">
+            
+                <a href="pages/error-handling/">
+            
+                    
+                    Error Handling
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="pages/error-handling/">
+            
+                <a href="pages/error-handling/#b-flow-control-and-values">
+            
+                    
+                    (B) Flow control and values
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="pages/error-handling/">
+            
+                <a href="pages/error-handling/#d-usage">
+            
+                    
+                    (D) Usage
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="pages/error-handling/">
+            
+                <a href="pages/error-handling/#s-loss-of-stack-trace">
+            
+                    
+                    (S) Loss of stack trace
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="pages/keywords-syntax-comparison/">
+            
+                <a href="pages/keywords-syntax-comparison/">
+            
+                    
+                    Keywords & Syntax Comparison
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="pages/keywords-syntax-comparison/">
+            
+                <a href="pages/keywords-syntax-comparison/#d-this-keyword">
+            
+                    
+                    (D) this keyword
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="pages/keywords-syntax-comparison/">
+            
+                <a href="pages/keywords-syntax-comparison/#d-new-keyword">
+            
+                    
+                    (D) new keyword
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="pages/keywords-syntax-comparison/">
+            
+                <a href="pages/keywords-syntax-comparison/#d-bind--method-values">
+            
+                    
+                    (D) bind / method values
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="pages/keywords-syntax-comparison/">
+            
+                <a href="pages/keywords-syntax-comparison/#s-settimeout--timer">
+            
+                    
+                    (S) setTimeout / timer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.5" data-path="pages/keywords-syntax-comparison/">
+            
+                <a href="pages/keywords-syntax-comparison/#d-setinterval--ticker">
+            
+                    
+                    (D) setInterval / ticker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.6" data-path="pages/keywords-syntax-comparison/">
+            
+                <a href="pages/keywords-syntax-comparison/#d-string-literals">
+            
+                    
+                    (D) String literals
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.7" data-path="pages/keywords-syntax-comparison/">
+            
+                <a href="pages/keywords-syntax-comparison/#s-comments">
+            
+                    
+                    (S) Comments
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="pages/variables/">
+            
+                <a href="pages/variables/">
+            
+                    
+                    Variables
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="pages/variables/">
+            
+                <a href="pages/variables/#d-values-pointers-references">
+            
+                    
+                    (D) Values, Pointers, References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="pages/variables/">
+            
+                <a href="pages/variables/#types">
+            
+                    
+                    Types
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="pages/flow-control-statements/">
+            
+                <a href="pages/flow-control-statements/">
+            
+                    
+                    Flow control statements
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="pages/flow-control-statements/">
+            
+                <a href="pages/flow-control-statements/#b-loops-and-iteration">
+            
+                    
+                    (B) Loops and iteration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="pages/flow-control-statements/">
+            
+                <a href="pages/flow-control-statements/#b-ifelse">
+            
+                    
+                    (B) If/Else
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="pages/flow-control-statements/">
+            
+                <a href="pages/flow-control-statements/#d-switch">
+            
+                    
+                    (D) Switch
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="pages/functions/">
+            
+                <a href="pages/functions/">
+            
+                    
+                    Functions
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="pages/functions/">
+            
+                <a href="pages/functions/#s-first-class-functions">
+            
+                    
+                    (S) first-class functions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="pages/functions/">
+            
+                <a href="pages/functions/#d-multiple-returns">
+            
+                    
+                    (D) Multiple returns
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3" data-path="pages/functions/">
+            
+                <a href="pages/functions/#s-iife">
+            
+                    
+                    (S) IIFE
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.4" data-path="pages/functions/">
+            
+                <a href="pages/functions/#s-closures">
+            
+                    
+                    (S) Closures
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="pages/license/">
+            
+                <a href="pages/license/">
+            
+                    
+                    License
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <a class="btn pull-right" aria-label="" href="/">
+	    <span class="logo-pazams">
+	    </span>
+	    <span class="pull-right">
+	       Blog
+	    </span>
+    </a>
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Introduction</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p><img src="images/cover.png" alt="book cover"></p>
+<h1 id="introduction">Introduction</h1>
+<p>Often, a developer will use more than one programming language at a certain timeframe. Switching back and forth between languages can come with some overhead. These context switches can also result in bugs. For instance, if you switch back and forth between Python and Javascript, there&apos;s a likelihood you&apos;ll mistake evaluation of an empty array between truthy and falsey. Similarly, if you switch back and forth between Go and Javascript, there&apos;s a likelihood you&apos;ll mistake <code>switch</code> statements default behavior of break/fallthrough. Outlining the differences between languages can help mitigate these potential issues, and make it easier to transition back and forth.</p>
+<p>This document compares between two programming languages, Golang (or &quot;Go&quot;) and ECMAScript (or &quot;Javascript&quot; / &quot;JS&quot;). The merits of this pairing is the popularity of these languages. That&apos;s it. They are not similar, in fact, they are quite different. Javascript is an event driven, dynamically typed and interpreted language, while Go is a statically typed and compiled language.</p>
+<p>If you&apos;re reading this there&apos;s a high chance you already know your Javascript and are just starting with Go. If so, make sure you first complete <a href="https://tour.golang.org" target="_blank">A tour of go</a> and <a href="https://golang.org/doc/effective_go.html" target="_blank">Effective go</a>.</p>
+<h2 id="which-language-should-i-use">Which language should I use?</h2>
+<p>You should always pick the right tool for the right job. Unfortunately, there will never be a simple formula that will instruct you which programming language you should choose to complete a given task.</p>
+<p><img src="images/science_art.png" alt="science is more art than science"></p>
+<p>Aside of technical considerations, other considerations, such as community adoption are also important. It was <a href="http://highscalability.com/blog/2014/2/26/the-whatsapp-architecture-facebook-bought-for-19-billion.html" target="_blank">reported</a> that Facebook moved away from the Erlang language because it was hard to find qualified programmers.</p>
+<p>Having said that, it is worthy to note that Javascript excels in I/O intense applications, and less so in CPU intense applications.</p>
+<h2 id="semantics">Semantics</h2>
+<p>Each subchapter/subject is denoted with (D),(S) or (B) to indicate how it compares across both languages with &apos;mostly <strong>D</strong>ifferent&apos;, &apos;mostly <strong>S</strong>imilar&apos; or &apos;mostly <strong>B</strong>oth&apos;.</p>
+<p>This document uses ECMAScript 2015 (ES6).
+Also, some subjects will note the run-time environment &quot;NodeJS&quot;.</p>
+<h2 id="contributions">Contributions</h2>
+<p>This book is friendly to suggestions, corrections and contributions.
+For these matters, please visit the source code for this book at <a href="https://github.com/pazams/go-for-javascript-developers" target="_blank">https://github.com/pazams/go-for-javascript-developers</a> and open an issue or a pull-request.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+                <a href="pages/internals/" class="navigation navigation-next navigation-unique" aria-label="Next page: Internals">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Internals","level":"1.2","depth":1,"path":"pages/internals/README.md","ref":"pages/internals/README.md","articles":[{"title":"(S) Heap/Stack Memory Allocation","level":"1.2.1","depth":2,"anchor":"#s-heapstack-memory-allocation","path":"pages/internals/README.md","ref":"pages/internals/README.md#s-heapstack-memory-allocation","articles":[]},{"title":"(S) Garbage Collection","level":"1.2.2","depth":2,"anchor":"#s-garbage-collection","path":"pages/internals/README.md","ref":"pages/internals/README.md#s-garbage-collection","articles":[]},{"title":"(D) Compilation","level":"1.2.3","depth":2,"anchor":"#d-compilation","path":"pages/internals/README.md","ref":"pages/internals/README.md#d-compilation","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["-sharing"],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2018-08-22T07:20:27.774Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-22T08:10:19.739Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

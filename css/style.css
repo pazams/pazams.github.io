@@ -407,6 +407,9 @@ h3 {
 #nav-search-btn:before {
   content: "\f002";
 }
+#nav-book-link:before {
+  content: "\f02d";
+}
 #search-form-wrap {
   padding-left: 0;
   opacity: 0;

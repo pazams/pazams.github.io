@@ -1,0 +1,813 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Keywords & Syntax Comparison · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="./" />
+    
+    
+    <link rel="prev" href="../error-handling/" />
+    
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-71726858-1', 'auto');
+ga('send', 'pageview', location.pathname);
+</script>
+<!-- End Google Analytics -->
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../internals/">
+            
+                <a href="../internals/">
+            
+                    
+                    Internals
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../internals/">
+            
+                <a href="../internals/#s-heapstack-memory-allocation">
+            
+                    
+                    (S) Heap/Stack Memory Allocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../internals/">
+            
+                <a href="../internals/#s-garbage-collection">
+            
+                    
+                    (S) Garbage Collection
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../internals/">
+            
+                <a href="../internals/#d-compilation">
+            
+                    
+                    (D) Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../concurrency-parallelism/">
+            
+                <a href="../concurrency-parallelism/">
+            
+                    
+                    Concurrency & Parallelism
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../concurrency-parallelism/">
+            
+                <a href="../concurrency-parallelism/#d-overview">
+            
+                    
+                    (D) Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../concurrency-parallelism/">
+            
+                <a href="../concurrency-parallelism/#d-async-vs-sync-apis">
+            
+                    
+                    (D) Async vs Sync APIs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../concurrency-parallelism/">
+            
+                <a href="../concurrency-parallelism/#d-sequential-and-concurrent-patterns">
+            
+                    
+                    (D) Sequential and Concurrent Patterns
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../modules-packages/">
+            
+                <a href="../modules-packages/">
+            
+                    
+                    Modules / Packages
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../modules-packages/">
+            
+                <a href="../modules-packages/#spec--practice">
+            
+                    
+                    Spec & Practice
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../modules-packages/">
+            
+                <a href="../modules-packages/#management">
+            
+                    
+                    Management
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../error-handling/">
+            
+                <a href="../error-handling/">
+            
+                    
+                    Error Handling
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../error-handling/">
+            
+                <a href="../error-handling/#b-flow-control-and-values">
+            
+                    
+                    (B) Flow control and values
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../error-handling/">
+            
+                <a href="../error-handling/#d-usage">
+            
+                    
+                    (D) Usage
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../error-handling/">
+            
+                <a href="../error-handling/#s-loss-of-stack-trace">
+            
+                    
+                    (S) Loss of stack trace
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.6" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Keywords & Syntax Comparison
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="./">
+            
+                <a href="./#d-this-keyword">
+            
+                    
+                    (D) this keyword
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="./">
+            
+                <a href="./#d-new-keyword">
+            
+                    
+                    (D) new keyword
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="./">
+            
+                <a href="./#d-bind--method-values">
+            
+                    
+                    (D) bind / method values
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="./">
+            
+                <a href="./#s-settimeout--timer">
+            
+                    
+                    (S) setTimeout / timer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.5" data-path="./">
+            
+                <a href="./#d-setinterval--ticker">
+            
+                    
+                    (D) setInterval / ticker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.6" data-path="./">
+            
+                <a href="./#d-string-literals">
+            
+                    
+                    (D) String literals
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.7" data-path="./">
+            
+                <a href="./#s-comments">
+            
+                    
+                    (S) Comments
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../variables/">
+            
+                <a href="../variables/">
+            
+                    
+                    Variables
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../variables/">
+            
+                <a href="../variables/#d-values-pointers-references">
+            
+                    
+                    (D) Values, Pointers, References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../variables/">
+            
+                <a href="../variables/#types">
+            
+                    
+                    Types
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../flow-control-statements/">
+            
+                <a href="../flow-control-statements/">
+            
+                    
+                    Flow control statements
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../flow-control-statements/">
+            
+                <a href="../flow-control-statements/#b-loops-and-iteration">
+            
+                    
+                    (B) Loops and iteration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../flow-control-statements/">
+            
+                <a href="../flow-control-statements/#b-ifelse">
+            
+                    
+                    (B) If/Else
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../flow-control-statements/">
+            
+                <a href="../flow-control-statements/#d-switch">
+            
+                    
+                    (D) Switch
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../functions/">
+            
+                <a href="../functions/">
+            
+                    
+                    Functions
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../functions/">
+            
+                <a href="../functions/#s-first-class-functions">
+            
+                    
+                    (S) first-class functions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../functions/">
+            
+                <a href="../functions/#d-multiple-returns">
+            
+                    
+                    (D) Multiple returns
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3" data-path="../functions/">
+            
+                <a href="../functions/#s-iife">
+            
+                    
+                    (S) IIFE
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.4" data-path="../functions/">
+            
+                <a href="../functions/#s-closures">
+            
+                    
+                    (S) Closures
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../license/">
+            
+                <a href="../license/">
+            
+                    
+                    License
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <a class="btn pull-right" aria-label="" href="/">
+	    <span class="logo-pazams">
+	    </span>
+	    <span class="pull-right">
+	       Blog
+	    </span>
+    </a>
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Keywords & Syntax Comparison</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="keywords--syntax-comparison">Keywords &amp; Syntax Comparison</h1>
+<h2 id="d-this-keyword">(D) <code>this</code> keyword</h2>
+<p><strong>JS</strong></p>
+<p>Inside an object method, <code>this</code> refers to the object (with some exceptions).</p>
+<p><strong>Go</strong></p>
+<p>In Go, the closest analogy would be receivers inside method functions.
+You <em>may</em> use <code>this</code> as a receiver:</p>
+<pre><code class="lang-Go"><span class="hljs-keyword">type</span> Bar <span class="hljs-keyword">struct</span> {
+    foo <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-keyword">func</span> (this *Bar) Foo() <span class="hljs-keyword">string</span> {
+    <span class="hljs-keyword">return</span> this.foo
+}
+</code></pre>
+<p>It is more idiomatic to use short variables as receivers. In the example above <code>b</code> would have been a better fit over <code>this</code>.</p>
+<h2 id="d-new-keyword">(D) <code>new</code> keyword</h2>
+<p><strong>JS</strong></p>
+<p><code>new Foo()</code> instantiates an object from <code>Foo</code>, a constructor function or a class.</p>
+<p><strong>Go</strong></p>
+<p><code>new(T)</code> allocates zeroed storage for a new item of type <code>T</code> and returns a pointer, <code>*T</code>. This is different than Javascript and most other languages where <code>new</code> will <strong>initialize</strong> the object, while in Golang it only <strong>zeros</strong> it.</p>
+<p>It is worthy to mention that it is <a href="https://blog.golang.org/package-names" target="_blank">idiomatic</a> to name methods with a &quot;New&quot; prefix to denote it returns a pointer to the type following in the method name. e.g:</p>
+<pre><code class="lang-Go">timer := time.NewTimer(d) <span class="hljs-comment">// timer is a *time.Timer</span>
+</code></pre>
+<h2 id="d-bind--method-values">(D) bind / method values</h2>
+<p><strong>JS</strong></p>
+<pre><code class="lang-Javascript"><span class="hljs-keyword">var</span> f = bar.foo.bind(bar2); <span class="hljs-comment">// when calling f(), &quot;this&quot; will refer to bar2</span>
+</code></pre>
+<p><strong>Go</strong></p>
+<pre><code class="lang-Go">f := bar.foo <span class="hljs-comment">// f(), is same as bar.foo()</span>
+</code></pre>
+<h2 id="s-settimeout--timer">(S) setTimeout / timer</h2>
+<p><strong>JS</strong></p>
+<pre><code class="lang-Javascript">setTimeout(somefunction, <span class="hljs-number">3</span>*<span class="hljs-number">1000</span>)
+</code></pre>
+<p><strong>Go</strong></p>
+<pre><code class="lang-Go">time.AfterFunc(<span class="hljs-number">3</span>*time.Second, somefunction)
+</code></pre>
+<h2 id="d-setinterval--ticker">(D) setInterval / ticker</h2>
+<p><strong>JS</strong></p>
+<pre><code class="lang-Javascript">setInterval(somefunction, <span class="hljs-number">3</span>*<span class="hljs-number">1000</span>)
+</code></pre>
+<p><strong>Go</strong></p>
+<pre><code class="lang-Go">ticker := time.NewTicker(<span class="hljs-number">3</span> * time.Second)
+<span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>() {
+    <span class="hljs-keyword">for</span> t := <span class="hljs-keyword">range</span> ticker.C {
+        somefunction()
+    }
+}()
+</code></pre>
+<h2 id="d-string-literals">(D) String literals</h2>
+<p><strong>JS</strong></p>
+<p>Strings are initialized with single quotes (<code>&apos;hello&apos;</code>) or double quotes (<code>&quot;hello&quot;</code>), yet most coding styles prefer the single quotes variation. Raw string literals use backticks (<code>`hello` </code>).</p>
+<p><strong>Go</strong></p>
+<p>Strings are initialized with double quotes (<code>&quot;hello&quot;</code>) or raw string literals with backticks (<code>`hello` </code>)</p>
+<h2 id="s-comments">(S) Comments</h2>
+<p>Both languages use the same <code>/* block comments */</code>  and <code>// line comments</code>.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../error-handling/#s-loss-of-stack-trace" class="navigation navigation-prev " aria-label="Previous page: (S) Loss of stack trace">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="./#d-this-keyword" class="navigation navigation-next " aria-label="Next page: (D) this keyword">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Keywords & Syntax Comparison","level":"1.6","depth":1,"next":{"title":"(D) this keyword","level":"1.6.1","depth":2,"anchor":"#d-this-keyword","path":"pages/keywords-syntax-comparison/README.md","ref":"pages/keywords-syntax-comparison/README.md#d-this-keyword","articles":[]},"previous":{"title":"(S) Loss of stack trace","level":"1.5.3","depth":2,"anchor":"#s-loss-of-stack-trace","path":"pages/error-handling/README.md","ref":"pages/error-handling/README.md#s-loss-of-stack-trace","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["-sharing"],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/keywords-syntax-comparison/README.md","mtime":"2018-08-22T07:14:15.196Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-22T08:01:50.829Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

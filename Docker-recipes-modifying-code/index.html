@@ -6,12 +6,14 @@
   <title>Docker recipes- modifying code inside containers | Pazams Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Docker&apos;s official documentation and tutorials show us a technique to modify a project&apos;s source code inside a running container. This is done by mounting the folder from the host into the container.">
+<meta name="keywords" content="docker container mount modify code">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker recipes- modifying code inside containers">
 <meta property="og:url" content="http://pazams.com/Docker-recipes-modifying-code/index.html">
 <meta property="og:site_name" content="Pazams Blog">
 <meta property="og:description" content="Docker&apos;s official documentation and tutorials show us a technique to modify a project&apos;s source code inside a running container. This is done by mounting the folder from the host into the container.">
-<meta property="og:updated_time" content="2016-10-08T20:19:41.916Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-07T06:06:46.498Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker recipes- modifying code inside containers">
 <meta name="twitter:description" content="Docker&apos;s official documentation and tutorials show us a technique to modify a project&apos;s source code inside a running container. This is done by mounting the folder from the host into the container.">
@@ -24,7 +26,7 @@
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -48,13 +50,14 @@ ga('send', 'pageview', location.pathname);
       <header id="header">
   <div id="banner"></div>
   <div id="header-outer" class="outer">
-   
+
     <div id="header-inner">
       <nav id="main-nav">
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
         <a id="nav-github-link" class="nav-icon" href="https://github.com/pazams" title="Github"></a>
+        <a id="nav-book-link" class="nav-icon" href="/Go-for-Javascript-Developers" title="My Book"></a>
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
         <div id="search-form-wrap" class="nav-icon">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" id="search-form-input"  class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pazams.com"></form>
@@ -86,7 +89,7 @@ ga('send', 'pageview', location.pathname);
         <section id="main"><article id="post-Docker-recipes-modifying-code" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/Docker-recipes-modifying-code/" class="article-date">
-  <time datetime="2016-07-16T21:45:10.000Z" itemprop="datePublished">Jul 17, 2016</time>
+  <time datetime="2016-07-17T07:45:10.000Z" itemprop="datePublished">Jul 17, 2016</time>
 </a>
     
   </div>
@@ -107,17 +110,17 @@ ga('send', 'pageview', location.pathname);
       
         <p>Docker's official documentation and tutorials show us a technique to modify a project's source code inside a running container. This is done by mounting the folder from the host into the container.</p>
 <a id="more"></a>
-<p>In the <a href="https://docs.docker.com/engine/tutorials/dockervolumes/" target="_blank" rel="external">docker volumes tutorial</a>, the technique can be implied from:</p>
+<p>In the <a href="https://docs.docker.com/engine/tutorials/dockervolumes/" target="_blank" rel="noopener">docker volumes tutorial</a>, the technique can be implied from:</p>
 <p><code>docker run -d -P --name web -v /src/webapp:/opt/webapp training/webapp python app.py</code></p>
-<p>A more detailed explanation is given in the <a href="https://github.com/docker/compose/commits/master/docs/gettingstarted.md" target="_blank" rel="external">docker compose docs</a>:</p>
+<p>A more detailed explanation is given in the <a href="https://github.com/docker/compose/commits/master/docs/gettingstarted.md" target="_blank" rel="noopener">docker compose docs</a>:</p>
 <blockquote>
 <p>&quot;
 Mounts the project directory on the host to /code inside the container allowing you to modify the code without having to rebuild the image.
 &quot;</p>
 </blockquote>
-<p>The above explanation dates backs as early as <a href="https://github.com/docker/compose/commit/f60621ee1bbed066bb36fb3e78f7b9ed32bc3c4c#diff-1a523bd9fa0dbf998008b37579210e12" target="_blank" rel="external">Jan 2014</a>. Aside of the official docs, this technique is also discussed in <a href="https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077" target="_blank" rel="external">forums</a>.  All of these references might suggest that the practice of modifying code inside containers has a justification.</p>
+<p>The above explanation dates backs as early as <a href="https://github.com/docker/compose/commit/f60621ee1bbed066bb36fb3e78f7b9ed32bc3c4c#diff-1a523bd9fa0dbf998008b37579210e12" target="_blank" rel="noopener">Jan 2014</a>. Aside of the official docs, this technique is also discussed in <a href="https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077" target="_blank" rel="noopener">forums</a>.  All of these references might suggest that the practice of modifying code inside containers has a justification.</p>
 <h2>There is no justification for modifying code inside containers</h2>
-<p>When your Dockerfile produces optimized docker images and layers, a code modification of your app or service will affect the top most layers. Essentially only the changed source gets built and uploaded to your registry, while the rest of the layers are served from cache. Therefore, building and <strong>uploading</strong> a new image after modifying source code should take a few seconds (More on <a href="https://dzone.com/articles/optimizing-docker-images-for-image-size-and-build" target="_blank" rel="external">optimizing images</a>, and specifically in <a href="http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/" target="_blank" rel="external">NodeJS</a>).</p>
+<p>When your Dockerfile produces optimized docker images and layers, a code modification of your app or service will affect the top most layers. Essentially only the changed source gets built and uploaded to your registry, while the rest of the layers are served from cache. Therefore, building and <strong>uploading</strong> a new image after modifying source code should take a few seconds (More on <a href="https://dzone.com/articles/optimizing-docker-images-for-image-size-and-build" target="_blank" rel="noopener">optimizing images</a>, and specifically in <a href="http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/" target="_blank" rel="noopener">NodeJS</a>).</p>
 <p>Once your image is optimized and upload time nears zero, a little investment in a <a href="/Docker-recipes-basic-ci/">basic CI flow</a> will leave no motivation for the mounting technique.</p>
 <h2>&quot;But I need livereload to develop client side code&quot;</h2>
 <p>Then work locally and isolated with Mock API's where needed.
@@ -168,7 +171,7 @@ No need to develop client side code inside a full running deployment in the firs
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Maor Zamski<br>
+      &copy; 2018 Maor Zamski<br>
     </div>
   </div>
 </footer>
@@ -208,7 +211,7 @@ No need to develop client side code inside a full running deployment in the firs
 
 
 
-<script src="/js/script.js" type="text/javascript"></script>
+<script src="/js/script.js"></script>
 
   </div>
 </body>

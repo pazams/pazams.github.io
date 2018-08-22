@@ -6,12 +6,14 @@
   <title>Github - syncing the gh-pages branch | Pazams Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch">
+<meta name="keywords" content="github gh-pages">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Github - syncing the gh-pages branch">
 <meta property="og:url" content="http://pazams.com/Github-syncing-the-gh-pages-branch/index.html">
 <meta property="og:site_name" content="Pazams Blog">
 <meta property="og:description" content="gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch">
-<meta property="og:updated_time" content="2016-07-16T21:01:37.393Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-07T06:06:46.498Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Github - syncing the gh-pages branch">
 <meta name="twitter:description" content="gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch">
@@ -24,7 +26,7 @@
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -48,13 +50,14 @@ ga('send', 'pageview', location.pathname);
       <header id="header">
   <div id="banner"></div>
   <div id="header-outer" class="outer">
-   
+
     <div id="header-inner">
       <nav id="main-nav">
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
         <a id="nav-github-link" class="nav-icon" href="https://github.com/pazams" title="Github"></a>
+        <a id="nav-book-link" class="nav-icon" href="/Go-for-Javascript-Developers" title="My Book"></a>
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
         <div id="search-form-wrap" class="nav-icon">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" id="search-form-input"  class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pazams.com"></form>
@@ -86,7 +89,7 @@ ga('send', 'pageview', location.pathname);
         <section id="main"><article id="post-Github-syncing-the-gh-pages-branch" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/Github-syncing-the-gh-pages-branch/" class="article-date">
-  <time datetime="2015-12-25T11:07:47.000Z" itemprop="datePublished">Dec 25, 2015</time>
+  <time datetime="2015-12-25T21:07:47.000Z" itemprop="datePublished">Dec 25, 2015</time>
 </a>
     
   </div>
@@ -108,14 +111,14 @@ ga('send', 'pageview', location.pathname);
         <p>gh-pages branch is used with github repos as a front page for the repository. It is used to display demos, documentations, a stylized readme, and more. Some difficulties arise when the gh-pages branch needs to reference or contain files that originate from the master branch.</p>
 <a id="more"></a>
 <h2>Work flows</h2>
-<p>Different work flow suggestions exist (see <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/" target="_blank" rel="external">here</a>, and <a href="http://oli.jp/2011/github-pages-workflow/" target="_blank" rel="external">there</a>). These suggestions work, but I find that syncing the gh-pages so it would contain the latest code from master to be a bad practice. The DRY principle should be imposed here- <strong>each file should either be on master or gh-pages branch. Not both, and not resorting to use gh-pages as the master branch.</strong></p>
+<p>Different work flow suggestions exist (see <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/" target="_blank" rel="noopener">here</a>, and <a href="http://oli.jp/2011/github-pages-workflow/" target="_blank" rel="noopener">there</a>). These suggestions work, but I find that syncing the gh-pages so it would contain the latest code from master to be a bad practice. The DRY principle should be imposed here- <strong>each file should either be on master or gh-pages branch. Not both, and not resorting to use gh-pages as the master branch.</strong></p>
 <h2>A different approach</h2>
 <p>Create the gh-pages as an orphan branch (also Github's recommendation):</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="comment">--orphan gh-pages</span></span><br><span class="line">git rm -rf .</span><br></pre></td></tr></table></figure>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="comment">--orphan gh-pages</span></span><br><span class="line">git rm -rf .</span><br></pre></td></tr></table></figure>
 <h3>dealing with special files</h3>
 <ol>
 <li>
-<p><strong>files from master that need to be referenced from gh-pages.</strong> For example- A demo page for a js client side widget. The demo should reference the distribution .js files. The easiest way the achieve this is to keep the distribution files in master, while inside gh-pages, use a 3rd party CDN to reference them such as <a href="https://rawgit.com/" target="_blank" rel="external">RawGit</a>.</p>
+<p><strong>files from master that need to be referenced from gh-pages.</strong> For example- A demo page for a js client side widget. The demo should reference the distribution .js files. The easiest way the achieve this is to keep the distribution files in master, while inside gh-pages, use a 3rd party CDN to reference them such as <a href="https://rawgit.com/" target="_blank" rel="noopener">RawGit</a>.</p>
 </li>
 <li>
 <p><strong>files that get generated in master branch, but belong to gh-pages.</strong> For example- documentation files that are auto generated by a tool that scans the source files. This is a bit more tricky:</p>
@@ -125,7 +128,7 @@ ga('send', 'pageview', location.pathname);
 The first time the files get generated on master, there's no problem switching to the gh-pages branch, and then stage and commit them. Trying to do so in the second time gets:
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error: The following untracked working tree files would be overwritten by checkout:</span><br></pre></td></tr></table></figure>
 <p>assuming the files are in a folder named <code>documentation</code>, the way around this is:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add documentation</span><br><span class="line">git stash</span><br><span class="line">git checkout gh-pages</span><br><span class="line">git checkout stash@&#123;<span class="number">0</span>&#125; -- documentation/</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add documentation</span><br><span class="line">git stash</span><br><span class="line">git checkout gh-pages</span><br><span class="line">git checkout stash@&#123;0&#125; -- documentation/</span><br></pre></td></tr></table></figure>
 <p>using <code>git checkout stash@{0}</code> is preferred here over <code>git stash pop</code>, since the stash command will result in conflicts which you will need to resolve manually (note the stash command doesn't take <code>--theirs</code>).</p>
 </div>
 
@@ -174,7 +177,7 @@ The first time the files get generated on master, there's no problem switching t
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Maor Zamski<br>
+      &copy; 2018 Maor Zamski<br>
     </div>
   </div>
 </footer>
@@ -214,7 +217,7 @@ The first time the files get generated on master, there's no problem switching t
 
 
 
-<script src="/js/script.js" type="text/javascript"></script>
+<script src="/js/script.js"></script>
 
   </div>
 </body>
