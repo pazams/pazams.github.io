@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Concurrency & Parallelism · GitBook</title>
+        <title>Types · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -63,7 +63,7 @@
     <link rel="next" href="./" />
     
     
-    <link rel="prev" href="../internals/" />
+    <link rel="prev" href="../keywords-syntax-comparison/" />
     
 
 <!-- Google Analytics -->
@@ -174,9 +174,9 @@ ga('send', 'pageview', location.pathname);
             
         </li>
     
-        <li class="chapter active" data-level="1.3" data-path="./">
+        <li class="chapter " data-level="1.3" data-path="../concurrency-parallelism/">
             
-                <a href="./">
+                <a href="../concurrency-parallelism/">
             
                     
                     Concurrency & Parallelism
@@ -188,9 +188,9 @@ ga('send', 'pageview', location.pathname);
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.1" data-path="./">
+        <li class="chapter " data-level="1.3.1" data-path="../concurrency-parallelism/">
             
-                <a href="./#d-overview">
+                <a href="../concurrency-parallelism/#d-overview">
             
                     
                     (D) Overview
@@ -201,9 +201,9 @@ ga('send', 'pageview', location.pathname);
             
         </li>
     
-        <li class="chapter " data-level="1.3.2" data-path="./">
+        <li class="chapter " data-level="1.3.2" data-path="../concurrency-parallelism/">
             
-                <a href="./#d-async-vs-sync-apis">
+                <a href="../concurrency-parallelism/#d-async-vs-sync-apis">
             
                     
                     (D) Async vs Sync APIs
@@ -214,9 +214,9 @@ ga('send', 'pageview', location.pathname);
             
         </li>
     
-        <li class="chapter " data-level="1.3.3" data-path="./">
+        <li class="chapter " data-level="1.3.3" data-path="../concurrency-parallelism/">
             
-                <a href="./#d-sequential-and-concurrent-patterns">
+                <a href="../concurrency-parallelism/#d-sequential-and-concurrent-patterns">
             
                     
                     (D) Sequential and Concurrent Patterns
@@ -458,9 +458,9 @@ ga('send', 'pageview', location.pathname);
             
         </li>
     
-        <li class="chapter " data-level="1.7" data-path="../types/">
+        <li class="chapter active" data-level="1.7" data-path="./">
             
-                <a href="../types/">
+                <a href="./">
             
                     
                     Types
@@ -472,9 +472,9 @@ ga('send', 'pageview', location.pathname);
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.7.1" data-path="../types/">
+        <li class="chapter " data-level="1.7.1" data-path="./">
             
-                <a href="../types/#d-values-pointers-references">
+                <a href="./#d-values-pointers-references">
             
                     
                     (D) Values, Pointers, References
@@ -485,9 +485,9 @@ ga('send', 'pageview', location.pathname);
             
         </li>
     
-        <li class="chapter " data-level="1.7.2" data-path="../types/">
+        <li class="chapter " data-level="1.7.2" data-path="./">
             
-                <a href="../types/#d-arrays--slices">
+                <a href="./#d-arrays--slices">
             
                     
                     (D) Arrays / Slices
@@ -498,9 +498,9 @@ ga('send', 'pageview', location.pathname);
             
         </li>
     
-        <li class="chapter " data-level="1.7.3" data-path="../types/">
+        <li class="chapter " data-level="1.7.3" data-path="./">
             
-                <a href="../types/#d-dictionaries">
+                <a href="./#d-dictionaries">
             
                     
                     (D) Dictionaries
@@ -511,9 +511,9 @@ ga('send', 'pageview', location.pathname);
             
         </li>
     
-        <li class="chapter " data-level="1.7.4" data-path="../types/">
+        <li class="chapter " data-level="1.7.4" data-path="./">
             
-                <a href="../types/#d-sets">
+                <a href="./#d-sets">
             
                     
                     (D) Sets
@@ -702,7 +702,7 @@ ga('send', 'pageview', location.pathname);
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >Concurrency & Parallelism</a>
+        <a href="../.." >Types</a>
     </h1>
 </div>
 
@@ -717,167 +717,141 @@ ga('send', 'pageview', location.pathname);
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="concurrency--parallelism">Concurrency &amp; Parallelism</h1>
-<h2 id="d-overview">(D) Overview</h2>
+                                <h1 id="types">Types</h1>
+<h2 id="d-values-pointers-references">(D) Values, Pointers, References</h2>
+<p>In Javascript there are value types and reference types. Primitives such as <code>string</code> and <code>number</code> are value types. Objects, including arrays and functions, are reference types.</p>
+<p>In Go, there are value types, reference types, and pointers. References types are slices, maps, and channels. All the rest are value types, but have the ability &quot;<em>to be referenced</em>&quot; with pointers.
+The most practical difference to remember between references and pointers, is that while you can use both to mutate the underlaying value (when it is mutable), with pointers you can also reassign it.</p>
 <p><strong>JS</strong></p>
-<p>The best way to describe Parallelism in Javascript is with this <a href="http://debuggable.com/posts/understanding-node-js:4bd98440-45e4-4a9a-8ef7-0f7ecbdd56cb" target="_blank">quote</a> by Felix Geisend&#xF6;rfer:</p>
-<blockquote>
-<p> Well, in node everything runs in parallel, except your code.</p>
-</blockquote>
-<p>So while your Javascript runtime may use multiple threads for IO, your own code is getting run just by one. That&apos;s just how the <em>evented</em> model works.
-Different Javascript runtimes offer some options for concurrency or parallelism: NodeJS offers <a href="https://nodejs.org/docs/latest/api/cluster.html" target="_blank">clustering</a>, and Browsers offer <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers" target="_blank">web workers</a>.</p>
-<p><strong>Go</strong></p>
-<p>On the other hand, Go is all about a concurrency which enables parallelism. It offers Goroutines which enables functions to run concurrently, and channels to communicate between them. While Go standard library has the &quot;sync&quot; package for synchronization primitives, it <a href="https://blog.golang.org/share-memory-by-communicating" target="_blank">encourages</a> more the use of Goroutines and channels, summarized as:</p>
-<blockquote>
-<p>Do not communicate by sharing memory; instead, share memory by communicating</p>
-</blockquote>
-<p>More on this subject:</p>
-<ul>
-<li><a href="https://talks.golang.org/2012/concurrency.slide#1" target="_blank">Go Concurrency Patterns</a></li>
-<li><a href="https://talks.golang.org/2013/advconc.slide#1" target="_blank">Advanced Go Concurrency Patterns</a></li>
-</ul>
-<h2 id="d-async-vs-sync-apis">(D) Async vs Sync APIs</h2>
-<p><strong>JS</strong></p>
-<p>JS promotes writing async APIs, since sync APIs always block the caller, e.g:</p>
-<pre><code class="lang-Javascript"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;fs&apos;</span>);
-
-<span class="hljs-comment">// The caller to this function will be blocked while the file is being read.</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fetchA</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">return</span> fs.readFileSync(<span class="hljs-string">&apos;a.txt&apos;</span>);
-}
-</code></pre>
-<p>In the example above, the async <code>fs.readFile()</code> would be a better choice in most scenarios, making <code>fetchA()</code> async and unblocking its caller.</p>
-<p><strong>Go</strong></p>
-<p>On the other hand, Go promotes the sync APIs (see &#x201C;Avoid concurrency in your API&#x201D; in <a href="https://talks.golang.org/2013/bestpractices.slide#26" target="_blank">https://talks.golang.org/2013/bestpractices.slide#26</a>)
-The reasoning behind this is that it is completely up to the caller&apos;s choice to be blocked or not by a sync API. Consider the following type definition and sync <code>fetchA</code> function:</p>
-<pre><code class="lang-Go"><span class="hljs-keyword">type</span> fetchResult <span class="hljs-keyword">struct</span> {
-    Message <span class="hljs-keyword">string</span>
-    Error   error
+<pre><code class="lang-Javascript"><span class="hljs-keyword">var</span> a = {
+    message: <span class="hljs-string">&apos;hello&apos;</span>
 }
 
-<span class="hljs-keyword">func</span> fetchA() fetchResult {
-    time.Sleep(time.Second * <span class="hljs-number">4</span>)
-    <span class="hljs-keyword">return</span> fetchResult{<span class="hljs-string">&quot;A data&quot;</span>, <span class="hljs-literal">nil</span>}
-}
-</code></pre>
-<p>If the caller wants to be blocked, then he can just call the function</p>
-<pre><code class="lang-Go">a := fetchA()
-</code></pre>
-<p>If the caller does not want to be blocked, then he could call the function inside a goroutine:</p>
-<pre><code class="lang-Go">aChan := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> fetchResult, <span class="hljs-number">0</span>)
-<span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>(c <span class="hljs-keyword">chan</span> fetchResult) {
-    c &lt;- fetchA()
-}(aChan)
+<span class="hljs-keyword">var</span> b = a;
 
-<span class="hljs-comment">// Do other things, and then read from channel</span>
-a := &lt;-aChan
-</code></pre>
-<h2 id="d-sequential-and-concurrent-patterns">(D) Sequential and Concurrent Patterns</h2>
-<p><strong>JS</strong></p>
-<p>Even without parallelism, we can structure Javascript code in both sequential and concurrent flows.
-For the following exmaples, let&#x2019;s assume <code>fetchA()</code>, <code>fetchB()</code> and <code>fetchC()</code> are all async functions returning a promise.</p>
-<p><strong>Sequential</strong></p>
-<pre><code class="lang-Javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fetchSequential</span>(<span class="hljs-params"></span>) </span>{
-    fetchA().then(a =&gt; {
-        <span class="hljs-built_in">console</span>.log(a);
-        <span class="hljs-keyword">return</span> fetchB();
-    }).then(b =&gt; {
-        <span class="hljs-built_in">console</span>.log(b);
-        <span class="hljs-keyword">return</span> fetchC();
-    }).then(c =&gt; {
-        <span class="hljs-built_in">console</span>.log(c);
-    })
+<span class="hljs-comment">// mutate</span>
+b.message = <span class="hljs-string">&apos;goodbye&apos;</span>;
+<span class="hljs-built_in">console</span>.log(a.message === b.message); <span class="hljs-comment">// prints &apos;true&apos;</span>
+
+<span class="hljs-comment">// reassign</span>
+b = {
+    message: <span class="hljs-string">&apos;galaxy&apos;</span>
 }
-</code></pre>
-<p>or</p>
-<pre><code class="lang-Javascript"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fetchSequential</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">const</span> a = <span class="hljs-keyword">await</span> fetchA();
-    <span class="hljs-built_in">console</span>.log(a);
-    <span class="hljs-keyword">const</span> b = <span class="hljs-keyword">await</span> fetchB();
-    <span class="hljs-built_in">console</span>.log(b);
-    <span class="hljs-keyword">const</span> c = <span class="hljs-keyword">await</span> fetchC();
-    <span class="hljs-built_in">console</span>.log(c);
-}
-</code></pre>
-<p><strong>Concurrent</strong></p>
-<pre><code class="lang-Javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fetchConcurrent</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-built_in">Promise</span>.all([fetchA(), fetchB(), fetchC()]).then(values =&gt; {
-        <span class="hljs-built_in">console</span>.log(values);
-    }
-}
-</code></pre>
-<p>or</p>
-<pre><code class="lang-Javascript"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fetchConcurrent</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">const</span> values = <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([fetchA(), fetchB(), fetchC()])
-    <span class="hljs-built_in">console</span>.log(values);
-}
+<span class="hljs-built_in">console</span>.log(a.message === b.message); <span class="hljs-comment">// prints &apos;false&apos;</span>
 </code></pre>
 <p><strong>Go</strong></p>
-<p>For the following examples, assume <code>fetchB()</code> and <code>fetchC()</code> are defined as a sync function similarly to <code>fetchA</code> in the previous section (The full example is available at <a href="https://play.golang.org/p/2BVwtos4-j" target="_blank">https://play.golang.org/p/2BVwtos4-j</a>)</p>
-<p><strong>Sequential</strong></p>
-<pre><code class="lang-Go"><span class="hljs-keyword">func</span> fetchSequential() {
-    a := fetchA()
-    fmt.Println(a)
-    b := fetchB()
-    fmt.Println(b)
-    c := fetchC()
-    fmt.Println(c)
+<pre><code class="lang-Go">a := <span class="hljs-keyword">struct</span> {
+    message <span class="hljs-keyword">string</span>
+}{<span class="hljs-string">&quot;hello&quot;</span>}
+
+b := &amp;a
+
+<span class="hljs-comment">// mutate</span>
+<span class="hljs-comment">// note b.message is short for (*b).message</span>
+b.message = <span class="hljs-string">&quot;goodbye&quot;</span>
+fmt.Println(a.message == b.message) <span class="hljs-comment">// prints &quot;true&quot;</span>
+
+<span class="hljs-comment">// reassign</span>
+*b = <span class="hljs-keyword">struct</span> {
+    message <span class="hljs-keyword">string</span>
+}{<span class="hljs-string">&quot;galaxy&quot;</span>}
+fmt.Println(a.message == b.message) <span class="hljs-comment">// prints &quot;true&quot;</span>
+</code></pre>
+<h2 id="d-arrays--slices">(D) Arrays / Slices</h2>
+<p><strong>JS</strong></p>
+<p>A Javascript <code>Array</code> is a dynamically sized list that may contain multiple types of elements.</p>
+<pre><code class="lang-Javascript"><span class="hljs-keyword">const</span> foo = [<span class="hljs-string">&apos;Rick&apos;</span>,<span class="hljs-string">&apos;Morty&apos;</span>];
+
+<span class="hljs-comment">// Adds to the end of the array.</span>
+foo.push(<span class="hljs-string">&apos;Beth&apos;</span>);
+
+<span class="hljs-comment">// Removes from the end of the array.</span>
+element = foo.pop()
+</code></pre>
+<p>Javascript also has a handful of &quot;Typed Arrays&quot;, e.g. <code>Uint8Array</code> is a type that holds 8-bit unsigned integers. These arrays are not of the same type as <code>Array</code>. They support different methods, and commonly used when working with binary data.</p>
+<p><strong>Go</strong></p>
+<p>Go has both slice and array types. Javascript&apos;s array is actually more similar to Go&apos;s slice than to Go&apos;s array, simply because Go&apos;s slice is a dynamically sized list, while Go&apos;s array size is static. Slice and arrays are always defined over a specific element type. Assigning an array to a new variable does copy the internal data (not a deep copy).Assigning a slice to a new variable does NOT copy the internal data of array, as the slice doesn&apos;t contain the internal data in the first place.</p>
+<p>Every slice is backed by an array. The backing array may be an array that is defined in the code, or otherwise created transparently by the program.</p>
+<pre><code class="lang-Go">a := [<span class="hljs-number">3</span>]<span class="hljs-keyword">int</span>{<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>}
+
+<span class="hljs-comment">// 1. Create a slice by slicing an array</span>
+s1 := a[:]
+
+<span class="hljs-comment">// 2. Create a slice with slice literal</span>
+s2 := []<span class="hljs-keyword">int</span>{<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>}
+
+<span class="hljs-comment">// 3.1 Create a zeroed slice with make()</span>
+s3_1 := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">int</span>, <span class="hljs-number">3</span>)
+
+<span class="hljs-comment">// 3.2 Same as previous line, except an addition of a cap param.</span>
+<span class="hljs-comment">// The cap gives a slice a defined capacity with it&apos;s backing array.</span>
+<span class="hljs-comment">// If the following slice will grow by 2 more elements, another array allocation will NOT be performed.</span>
+s3_2 := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">int</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>)
+
+<span class="hljs-comment">// 4. Create an &quot;empty&quot; slice by variable decleration</span>
+<span class="hljs-keyword">var</span> s4 []<span class="hljs-keyword">int</span>
+</code></pre>
+<p>Arrays are more limited. They have a known size at compile-time and it cannot change at run-time.</p>
+<pre><code class="lang-Go"><span class="hljs-comment">// 1. Create an array with array literal</span>
+a1 := [<span class="hljs-number">3</span>]<span class="hljs-keyword">int</span>{<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>}
+
+<span class="hljs-comment">// 2. Create an zeroed array by variable decleration</span>
+<span class="hljs-keyword">var</span> a2 [<span class="hljs-number">3</span>]<span class="hljs-keyword">int</span>
+</code></pre>
+<p>Slicing creates a new slice from an existing array or slice. It uses the <code>[low:high]</code> syntax, where <code>low</code> is the inclusive lower bound, and <code>high</code> is the exclusive higher bound. Omitting <code>low</code> defaults to 0. Omitting <code>high</code> defaults to array/slice length.</p>
+<pre><code class="lang-Go">foo := []<span class="hljs-keyword">string</span>{<span class="hljs-string">&quot;Rick&quot;</span>, <span class="hljs-string">&quot;Morty&quot;</span>}
+
+<span class="hljs-comment">// Adds to the end of the array.</span>
+foo = <span class="hljs-built_in">append</span>(foo, <span class="hljs-string">&quot;Beth&quot;</span>)
+fmt.Println(foo)
+
+<span class="hljs-comment">// Removes from the end of the array.</span>
+n := <span class="hljs-built_in">len</span>(foo) - <span class="hljs-number">1</span> <span class="hljs-comment">// index of last element</span>
+element := foo[n] <span class="hljs-comment">// optionally also grab the last elemen</span>
+foo = foo[:n]     <span class="hljs-comment">// remove the last element</span>
+</code></pre>
+<p>Note: a slice that is first slice from an array references the same memory. However, the slice might later reference a different array that the program creates to accommodate a growth in the slice. This example illustrates this:</p>
+<pre><code class="lang-Go">fmt.Println(<span class="hljs-string">&quot;Hello, playground&quot;</span>)
+foo := [<span class="hljs-number">3</span>]<span class="hljs-keyword">string</span>{<span class="hljs-string">&quot;a&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;c&quot;</span>}
+
+bar := foo[:]
+bar[<span class="hljs-number">0</span>] = <span class="hljs-string">&quot;changed&quot;</span>    
+fmt.Println(foo, bar) <span class="hljs-comment">// A change in bar is reflected in foo because bar is backed by foo</span>
+
+bar = <span class="hljs-built_in">append</span>(bar, <span class="hljs-string">&quot;d&quot;</span>)
+bar[<span class="hljs-number">0</span>] = <span class="hljs-string">&quot;changed again&quot;</span>    
+fmt.Println(foo, bar) <span class="hljs-comment">// A change in bar is no longer reflected in foo because the `append` caused bar to backed by a different array</span>
+</code></pre>
+<h2 id="d-dictionaries">(D) Dictionaries</h2>
+<p><strong>JS</strong></p>
+<p>Javascript has 3 types that are used for dictionaries: <code>Object</code>, <code>Map</code>, <code>WeakMap</code>. Even though <code>Map</code> and <code>WeakMap</code> are dedicated types for dictionaries, <code>Object</code> is still often chosen for dictionaries because historically <code>Object</code> was the only option before <code>Map</code> and <code>WeakMap</code> were added to the language. <code>Object</code> keys are limited to just String or Symbol types while <code>Map</code> and <code>WeakMap</code> support any type for keys. </p>
+<p>There are a few other differences between these types, for instance the keys in <code>Map</code> are ordered while keys added to <code>Object</code> are not.</p>
+<p><strong>Go</strong></p>
+<p>Go has a simple <code>Map</code> type. <code>Map</code> types are reference types, like slices. Assigning a map to a new variable does NOT copy the internal data.</p>
+<p>Initialise a map:</p>
+<pre><code class="lang-Go"><span class="hljs-comment">// Initialise empty map with make.</span>
+m1 := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]<span class="hljs-keyword">int</span>)
+
+<span class="hljs-comment">// Initialise with struct literals.</span>
+m2 := <span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]<span class="hljs-keyword">int</span>{
+  <span class="hljs-string">&quot;foo&quot;</span>: <span class="hljs-number">42</span>,
+  <span class="hljs-string">&quot;bar&quot;</span>: <span class="hljs-number">99</span>,
 }
 </code></pre>
-<p><strong>Concurrent</strong></p>
-<pre><code class="lang-Go"><span class="hljs-keyword">func</span> fetchConcurrent() {
-    aChan := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> fetchResult, <span class="hljs-number">0</span>)
-    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>(c <span class="hljs-keyword">chan</span> fetchResult) {
-        c &lt;- fetchA()
-    }(aChan)
-    bChan := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> fetchResult, <span class="hljs-number">0</span>)
-    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>(c <span class="hljs-keyword">chan</span> fetchResult) {
-        c &lt;- fetchB()
-    }(bChan)
-    cChan := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> fetchResult, <span class="hljs-number">0</span>)
-    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>(c <span class="hljs-keyword">chan</span> fetchResult) {
-        c &lt;- fetchC()
-    }(cChan)
-
-    <span class="hljs-comment">// order doesn&apos;t really matter!</span>
-    a := &lt;-aChan
-    b := &lt;-bChan
-    c := &lt;-cChan
-    fmt.Println(a)
-    fmt.Println(b)
-    fmt.Println(c)
+<p>Element access:</p>
+<pre><code class="lang-Go">v := m[<span class="hljs-string">&quot;key&quot;</span>] <span class="hljs-comment">// If the requested key doesn&apos;t exist, we get the value type&apos;s zero value.</span>
+v, ok := m[<span class="hljs-string">&quot;key&quot;</span>] <span class="hljs-comment">// Behaves the same as the previous line, but addtionaly the ok bool value can be used to test existence.</span>
+</code></pre>
+<p>Iteration:</p>
+<pre><code class="lang-Go"><span class="hljs-comment">// The iteration order is not specified and is not guaranteed to be the same from one iteration to the next.</span>
+<span class="hljs-keyword">for</span> key, value := <span class="hljs-keyword">range</span> m {
 }
 </code></pre>
-<p>or</p>
-<pre><code class="lang-Go">
-<span class="hljs-keyword">func</span> fetchConcurrent() {
-    aChan := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> fetchResult, <span class="hljs-number">0</span>)
-    bChan := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> fetchResult, <span class="hljs-number">0</span>)
-    cChan := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> fetchResult, <span class="hljs-number">0</span>)
-
-    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>(c <span class="hljs-keyword">chan</span> fetchResult) {
-        c &lt;- fetchA()
-    }(aChan)
-    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>(c <span class="hljs-keyword">chan</span> fetchResult) {
-        c &lt;- fetchB()
-    }(bChan)
-    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>(c <span class="hljs-keyword">chan</span> fetchResult) {
-        c &lt;- fetchC()
-    }(cChan)
-
-    <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++ {
-        <span class="hljs-keyword">select</span> {
-        <span class="hljs-keyword">case</span> a := &lt;-aChan:
-            fmt.Println(a)
-        <span class="hljs-keyword">case</span> b := &lt;-bChan:
-            fmt.Println(b)
-        <span class="hljs-keyword">case</span> c := &lt;-cChan:
-            fmt.Println(c)
-
-        }
-    }
-}
-</code></pre>
+<h2 id="d-sets">(D) Sets</h2>
+<p><strong>JS</strong></p>
+<p>Javascript has 3 types that are used for sets: <code>Object</code>, <code>Set</code>, <code>WeakSet</code>. Similarly to the dictionaries case, <code>Object</code> is still often chosen for &quot;set&quot; functionality for historical reasons. <code>Object</code> keys are limited to just String or Symbol types while <code>Set</code> and <code>WeakSet</code> support any type for keys. When using <code>Object</code>, the values in the key-value pairs are redundant.</p>
+<p><strong>Go</strong></p>
+<p>Go does not have a type for set. It can be though easily accomplished with a <code>Map</code>. <a href="https://blog.golang.org/go-maps-in-action" target="_blank">Golang&apos;s blog</a> suggests the convenient use of <code>bool</code> as a value type, i.e. <code>map[T]bool</code>. However, if memory usage of the redundant values is of concern, then <code>map[T]struct{}</code> is a good alternative, as an empty struct allocates 0 memory (note <code>interface{}</code> does allocate memory; see this StackOverflow <a href="https://stackoverflow.com/a/22770744" target="_blank">answer</a> for more details).</p>
 
                                 
                                 </section>
@@ -905,12 +879,12 @@ For the following exmaples, let&#x2019;s assume <code>fetchA()</code>, <code>fet
 
             
                 
-                <a href="../internals/#d-compilation" class="navigation navigation-prev " aria-label="Previous page: (D) Compilation">
+                <a href="../keywords-syntax-comparison/#s-comments" class="navigation navigation-prev " aria-label="Previous page: (S) Comments">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="./#d-overview" class="navigation navigation-next " aria-label="Next page: (D) Overview">
+                <a href="./#d-values-pointers-references" class="navigation navigation-next " aria-label="Next page: (D) Values, Pointers, References">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -921,7 +895,7 @@ For the following exmaples, let&#x2019;s assume <code>fetchA()</code>, <code>fet
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Concurrency & Parallelism","level":"1.3","depth":1,"next":{"title":"(D) Overview","level":"1.3.1","depth":2,"anchor":"#d-overview","path":"pages/concurrency-parallelism/README.md","ref":"pages/concurrency-parallelism/README.md#d-overview","articles":[]},"previous":{"title":"(D) Compilation","level":"1.2.3","depth":2,"anchor":"#d-compilation","path":"pages/internals/README.md","ref":"pages/internals/README.md#d-compilation","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["-sharing"],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/concurrency-parallelism/README.md","mtime":"2019-09-01T05:00:39.082Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-01T05:38:30.236Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Types","level":"1.7","depth":1,"next":{"title":"(D) Values, Pointers, References","level":"1.7.1","depth":2,"anchor":"#d-values-pointers-references","path":"pages/types/README.md","ref":"pages/types/README.md#d-values-pointers-references","articles":[]},"previous":{"title":"(S) Comments","level":"1.6.7","depth":2,"anchor":"#s-comments","path":"pages/keywords-syntax-comparison/README.md","ref":"pages/keywords-syntax-comparison/README.md#s-comments","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["-sharing"],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"pages/types/README.md","mtime":"2019-09-01T05:05:04.182Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-01T05:38:30.236Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
