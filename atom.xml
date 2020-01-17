@@ -37,26 +37,6 @@
   </entry>
   
   <entry>
-    <title>Lessons learned from an upcoming webapp</title>
-    <link href="http://pazams.com/Lessons-from-webapp/"/>
-    <id>http://pazams.com/Lessons-from-webapp/</id>
-    <published>2016-08-28T22:30:00.000Z</published>
-    <updated>2018-08-07T06:06:46.498Z</updated>
-    
-    <content type="html"><![CDATA[<p>A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.</p><a id="more"></a><h2>Mock server api <em>AT</em> server</h2><p>Mocking the api between client and server allows both parts of the application to be developed independently. The server progress does not become a bottleneck for the client progress, and a mock can also be further utilized after the development of both is complete, for debugging puporses.</p><p>The mock can be implemented either at client or server.</p><ul><li>At the client, this usually means <em>trapping</em> calls to the api, and delivering the appropriate mock data. With this method the call never leaves the browser. Libraries for this methods exist, for example Angular users have <a href="https://docs.angularjs.org/api/ngMockE2E/service/$httpBackend" target="_blank" rel="noopener">ngMockE2E/$httpBackend</a>.</li><li>At the server, means you run a server that serves mock data for your client. Popular options include <a href="http://swagger.io/" target="_blank" rel="noopener">swagger</a> and <a href="https://apiblueprint.org/" target="_blank" rel="noopener">api blueprint</a>.</li></ul><p>The exprience of mocking the data at the server (with swagger), proved to be better than the experience I had with mocking at the client:</p><ul><li>When using api spec tools you get your api documented nicely and a mock server all for the same price.</li><li>Sometimes, a bit of processing and logic is needed to deliver the right mock data. This kind of logic, is actually server logic. When mocking at the server, the mock logic can be shared with real backend application logic.</li><li>When choosing to trap api calls at the client, you get extra files laying around next to your frontend application files. These need special attention. They need to be bundled for development environment and excluded from production environment. In contrast, with a mock server, extra files for mocking is not an issue as long as they are not <em>loaded</em> in production environment.</li></ul><h2>Google Cloud Platform for the win</h2><p>This was the first time I administered a kubernetes cluster intended for production use. I chose to go with gcloud simply by assuming a google container orchestrator works best with a google cloud provider. Since I was doing all the development, including ops, backend, frontend and db, I needed the easiest cloud solution to work with kubernetes. In a different scenario, I would inspect more and fiddle also with kubernetes on bare metal. Nonetheless, gcloud proved to be great:</p><ul><li><p>Support- I had a problem with uploading images to gcloud container registry. It stopped working for me. After battling it for a while, I found a public email to contact the gcr team. <strong>I did not sign for any special support plan, yet within 40 minuets, I got a meaningful reply by a developer!</strong> (I eventually came up with a fix, more details at <a href="http://stackoverflow.com/a/39191145/4731675" target="_blank" rel="noopener">SO</a>). Big ups for gcloud support!.</p></li><li><p><code>gcloud</code>, <code>gsutil</code> are easy to work with.</p></li><li><p>The <em>console</em> (gcloud GUI), works nice, though can get buggy at times (some flows do not work for me in FF, chrome solves).</p></li><li><p>The docs tutorials: short and concise, with smart hooks if you need to dive deep into a subject.</p><p>If you're hooked into AWS, keep it so. If not, give Google Cloud Platform a chance.</p></li></ul><h2>There's no 2 in TEAM</h2><p>I have a tendency to think that if a project is small enough, a team of 2 will suffice. The problem with this approach is some skill will always be missing. I am a developer. If I choose to collaborate with another developer, then we might deliver a good, bug free, product, but then user experience will not be optimal, and we will be clueless when it comes to marketing. If I choose to collaborate with a non-developer (as in this recent webapp), we'll get good product management and marketing, but then there's no code reviews, and time estimation for tasks can get volatile.</p><p>3 is the new magic number, and a minimum for future projects.</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;A friend and I finished developing a webapp (currently in staging, scheduled soon for production). Here are some of my learned lessons.&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="glcoud orchestrator kubernetes swagger" scheme="http://pazams.com/tags/glcoud-orchestrator-kubernetes-swagger/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Docker recipes- modifying code inside containers</title>
     <link href="http://pazams.com/Docker-recipes-modifying-code/"/>
     <id>http://pazams.com/Docker-recipes-modifying-code/</id>
@@ -93,26 +73,6 @@
     
     
       <category term="docker container orchestrator continuous integration ci" scheme="http://pazams.com/tags/docker-container-orchestrator-continuous-integration-ci/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Cattle harakiri - A pattern for orchestrated containers</title>
-    <link href="http://pazams.com/Cattle-harakiri-pattern/"/>
-    <id>http://pazams.com/Cattle-harakiri-pattern/</id>
-    <published>2016-07-15T01:00:00.000Z</published>
-    <updated>2018-08-07T06:06:46.497Z</updated>
-    
-    <content type="html"><![CDATA[<p>Should micro-services kill themselves?</p><a id="more"></a><h2>TL;DR</h2><img src="../images/cattle-harakiri-pattern.png"><h2>The idea</h2><p>With the rising use of containers and orchestrators, we can revise the way micro-services choose to maintain their running state. Health checks play an essential role in service orchestration. Detection of an unhealthy container/instance allows the orchestrator to order a replacement. Consider now that a service is in a <em>state</em> where some execution path is constantly failing. While monitoring and logging is still important, a container can choose to perform &quot;harakiri&quot; and let the health check and orchestrator pick up and provision a new healthy replica.Consider for example a service that performs some kind of <em>init</em> and transitions from &quot;before init&quot; state to &quot;after init&quot; state. This transition could possibly hiccup (a connection setup, mount, etc.). If an instance of the service decides to perform &quot;harakiri&quot;, it would allow a new instance a chance for a clean transition where the first didn't.</p><h2>But shouldn't health check detect these sick containers?</h2><p>Health checks should remain simple and detect &quot;Dead&quot; containers. &quot;Dead&quot; should be based on the service type (response time, response type). &quot;Dead&quot; should not be defined by the implementation details of the service as this will form a tight coupling between the service implementation and the health check. In relation to the illustration above- the health check should not analyze whether a one-legged crutching cow should be categorized as healthy or not.Instead, the container should use its private information, and decide when it is sick enough to pull the plug on himself.</p><h2>Notes</h2><ul><li>Obviously, this &quot;harakiri&quot; pattern is only applicable to services that are scaled to an extent, that if a single instance decides to terminate- no adverse effect will be noticed while the orchestrator provisions a replacement.A strategy pattern algorithm implementing the ideas above is a work in progress.Suggestions and ideas are most welcomed.</li><li>The 'state' mentioned above differs from the state in &quot;stateless services&quot;.  The latter refers to the state of interaction between the consumer and service, with 'stateless' allowing to easily balance the load across multiple instances. The 'state' type in this post refers to the inner state of service, which is unrelated to the former type. If ALL your services do not hold any internal state, then your stack must be entirely based on lambda serverless computing, and is way cooler than this post :)</li></ul><h2>Clarifications</h2><ul><li>The idea of using animals to <a href="http://www.theregister.co.uk/2013/03/18/servers_pets_or_cattle_cern/" target="_blank" rel="noopener">describe services</a> is a custom in this field. This post does not suggest physically challenged animals are not worthy of living, nor does it promote animal cruelty.</li><li>Strips were designed by me, with the help of some <a href="https://openclipart.org/" target="_blank" rel="noopener">clipart</a>.</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Should micro-services kill themselves?&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="docker container orchestrator" scheme="http://pazams.com/tags/docker-container-orchestrator/"/>
     
   </entry>
   
