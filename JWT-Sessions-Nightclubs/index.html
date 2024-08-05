@@ -6,20 +6,20 @@
   <title>JWT, Sessions, and Nightclubs | Pazams Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="JWT or Sessions, which one should you choose?">
-<meta name="keywords" content="JWT session cookie CSRF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JWT, Sessions, and Nightclubs">
 <meta property="og:url" content="http://pazams.com/JWT-Sessions-Nightclubs/index.html">
 <meta property="og:site_name" content="Pazams Blog">
 <meta property="og:description" content="JWT or Sessions, which one should you choose?">
-<meta property="og:locale" content="default">
+<meta property="og:locale">
 <meta property="og:image" content="http://pazams.com/images/jwt-sessions-base-case.png">
 <meta property="og:image" content="http://pazams.com/images/jwt-sessions-multi-entrance.png">
 <meta property="og:image" content="http://pazams.com/images/jwt-sessions-festival.png">
-<meta property="og:updated_time" content="2018-08-07T07:10:39.813Z">
+<meta property="article:published_time" content="2018-08-07T01:48:31.000Z">
+<meta property="article:modified_time" content="2024-08-05T19:52:11.911Z">
+<meta property="article:author" content="Maor Zamski">
+<meta property="article:tag" content="JWT session cookie CSRF">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JWT, Sessions, and Nightclubs">
-<meta name="twitter:description" content="JWT or Sessions, which one should you choose?">
 <meta name="twitter:image" content="http://pazams.com/images/jwt-sessions-base-case.png">
   
     <link rel="alternative" href="/atom.xml" title="Pazams Blog" type="application/atom+xml">
@@ -30,7 +30,9 @@
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -46,7 +48,7 @@ ga('send', 'pageview', location.pathname);
 <!-- End Google Analytics -->
 
 
-</head>
+<meta name="generator" content="Hexo 5.4.1"></head>
 
 <body>
   <div id="container">
@@ -60,7 +62,7 @@ ga('send', 'pageview', location.pathname);
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-github-link" class="nav-icon" href="https://github.com/pazams" title="Github"></a>
+        <a id="nav-github-link" class="nav-icon" target="_blank" rel="noopener" href="https://github.com/pazams" title="Github"></a>
         <a id="nav-book-link" class="nav-icon" href="/Go-for-Javascript-Developers" title="My Book"></a>
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
         <div id="search-form-wrap" class="nav-icon">
@@ -75,13 +77,11 @@ ga('send', 'pageview', location.pathname);
             <div class="logo-img"></div>
         </a>
       </div>
-      
 <a href="/" id="subtitle-wrap">
         <h2 id="subtitle">
-          Full Stack Web Development
+	Full Stack Web Development
         </h2>
 </a>
-      
     </div>
 
     <div style="clear: both;"></div>
@@ -93,7 +93,7 @@ ga('send', 'pageview', location.pathname);
         <section id="main"><article id="post-JWT-Sessions-Nightclubs" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/JWT-Sessions-Nightclubs/" class="article-date">
-  <time datetime="2018-08-07T02:48:31.000Z" itemprop="datePublished">Aug 06, 2018</time>
+  <time datetime="2018-08-07T01:48:31.000Z" itemprop="datePublished">Aug 06, 2018</time>
 </a>
     
   </div>
@@ -113,10 +113,10 @@ ga('send', 'pageview', location.pathname);
     <div class="article-entry" itemprop="articleBody">
       
         <p>JWT or Sessions, which one should you choose?</p>
-<a id="more"></a>
+<span id="more"></span>
 <h2>Preface</h2>
-<p>Building a webapp with a user-login flow can be implemented via different mechanisms. These mechanisms can vary greatly, both in features and in architectural structures. This post will try to outline the inherent differences between two popular common choices: JWT (JSON Web Tokens) and sessions.
-Even though this discussion can be generalised at times to a discussion about &quot;Authorisation vs Authentication&quot;, it will steer away from the latter and focus on JWT and sessions. The description of how these solutions work is out of scope, but there are plenty of sources for each of these solutions.</p>
+<p>Building a webapp with a user-login flow can be implemented via different mechanisms. These mechanisms can vary greatly, both in features and in architectural structures. This post will outline differences when maintaining user post-authentication activity by using either JWTs (JSON Web Tokens) or sessions.
+Even though this discussion can be generalised at times to a discussion about &quot;Stateless tokens vs Statefull tokens&quot;, it will just focus on the more concrete JWT vs sessions topic.</p>
 <h2>The nightclub analogy</h2>
 <p>Instead of discussing about different types of login mechanisms, let's first use a nightclub analogy.</p>
 <p>Consider you own and operate a nightclub and there's an upcoming private party. For this party, invited guests are entering, leaving, and re-entering. By which mechanism should the doormen grant access to these invited people? Let's consider two options:</p>
@@ -128,11 +128,11 @@ Even though this discussion can be generalised at times to a discussion about &q
 <p><strong>Re-entry:</strong> Same process as initial entry- each entry requires the guest to be verified against a guest list. To make this flow more analogous to a webapp login flow, let's imagine that the first entry results in a custom venue ID with a random value. This ID is then used with subsequent visits, thus replacing the driver's license. Note that with both types of entry and ID, verification against a guest list is required.</p>
 <p>Let's see how these mechanisms perform in different nightclub setups:</p>
 <h3>The base case nightclub</h3>
-<img src="../images/jwt-sessions-base-case.png">
+<img src="../images/jwt-sessions-base-case.png" />
 <p>This setup has just one nightclub with one single entrance.
 Both the &quot;wrist band&quot; mechanism and the &quot;continuous guest list check&quot; mechanism perform well.</p>
 <h3>The multi-entrance nightclub</h3>
-<img src="../images/jwt-sessions-multi-entrance.png">
+<img src="../images/jwt-sessions-multi-entrance.png" />
 <p>This setup has one nightclub but with more than one entrance.
 The &quot;wrist band&quot; mechanism works the same as in the single entrance setup. As long as the doormen at each entrance posses the same wrist band reader for verification, it works well.
 On the other hand, the &quot;continuous guest list check&quot; mechanism faces a challenge - How can the doormen at difference entrances share a single, probably dynamic, guest list?
@@ -142,7 +142,7 @@ Some possible solutions:</p>
 <li>Place the guest list in a central location. All entrance doormen need to make a quick run to check it for each guest.</li>
 </ol>
 <h3>The nightclub that's part of a festival</h3>
-<img src="../images/jwt-sessions-festival.png">
+<img src="../images/jwt-sessions-festival.png" />
 <p>This setup has several nightclubs, all cooperating in a specific time frame to form a festival.
 The &quot;wrist band&quot; mechanism works the same as in the single entrance setup. As long as the doormen at each nightclub posses the same wrist band reader for verification, it works well.
 On the other hand, the &quot;continuous guest list check&quot; mechanism arguably cannot work any more. The two solutions proposed for the multi-entrance nightclub will not suffice under this setup: A central location for a guest list is not practical to keep referring to due to distance, and otherwise splitting up the lists will not let festival attendees visit more than a single venue.</p>
@@ -151,20 +151,30 @@ On the other hand, the &quot;continuous guest list check&quot; mechanism arguabl
 <h3>Central point of failure</h3>
 <p>The wrist band machine that creates the bands posses a secret. If this secret is compromised and ends up in malicious hands, some uninvited guests can create a counterfeit valid band and be granted entry.</p>
 <h3>Banning guests</h3>
-<p>Consider you are interested in kicking out a misbehaving guest and then banning them from re-entry. If while kicking them out you are able to confiscate away their wrist band, then the problem is solved. However, what if the guest was able to get away with the wrist band still on? To block them from re-entry, it would require doormen to maintain a &quot;black list&quot; and for them to refer to it upon each re-entry. While this does work, maintaining and working with a &quot;black list&quot; has effectively all the properties of maintaining and working
-with a white list, which is exactly how the &quot;continuous guest list check&quot; mechanism works. If the doormen need to refer to a list, of any type, for each re-entry, the wrist band becomes redundant.</p>
+<p>Consider you are interested in kicking out a misbehaving guest and then banning them from re-entry. If while kicking them out you are able to confiscate away their wrist band, then the problem is solved. However, what if the guest was able to get away with the wrist band still on? To block them from re-entry, it would require doormen to maintain a &quot;deny-list&quot; and for them to refer to it upon each re-entry. While this does work, maintaining and working with a &quot;deny-list&quot; has effectively all the properties of maintaining and working
+with an allow-list, which is exactly how the &quot;continuous guest list check&quot; mechanism works. If the doormen need to refer to a list, of any type, for each re-entry, the wrist band becomes redundant.</p>
 <h2>The analogy source</h2>
-<p>Back to the engineering world, JWT are wrist bands, while sessions are just a guest list that is continuously being referred to.</p>
+<p>Back to the engineering world, JWT are wrist bands, while sessions are just a guest list that is continuously being referenced.</p>
 <ul>
 <li>If a server with a session mechanism has multiple instances (multi-entrance), we can either put the sessions in a central session store (central guest list), or implement sticky-sessions (re-entry is required through the same entrance).</li>
 <li>A JWT's secret for the signature part is a central point of failure. If it is compromised, all accounts are at risk.</li>
-<li>The JWT mechanism does not cope well with invalidating (banning) tokens. A blacklist is required, and it is advised to keep the expiration time of JWT low.</li>
+<li>The JWT mechanism does not cope well with invalidating (banning) tokens. A deny-list is required, and it is advised to keep the expiration time of JWT low.</li>
 </ul>
+<h2>oAuth &amp; OIDC</h2>
+<p>How does all of this apply when designing applications which rely on third-party authentication? Both JWTs and sessions can apply at different stages:</p>
+<p>First an authentication with a third-party must be completed. This follows the &quot;festival&quot; analogy. For example, Google distributes wrist bands to their users (&quot;sign-in with Google&quot;), while other venues can grab a wrist band reader from google (the JWKS url) to verify users are indeed authenticated google users with a certain email address and other claims. This part is completed through JWT and is standardized through the oAuth and OIDC specs.</p>
+<p>Secondly, the target application should choose how to maintain the initial authentication. It could:</p>
+<ul>
+<li>Keep reusing the OIDC jwt token issued by the third-party.</li>
+<li>Vend its own JWT token. This token will use a symmetric signing algorithm compared to the previous third-party asymmetric algorithm.</li>
+<li>Maintain the user authentication through sessions.</li>
+</ul>
+<p>Thus, we arrive at the similar options to consider, with or without third-party identity providers.</p>
 <h2>Conclusion</h2>
-<p>JWT and sessions each have tradeoffs, which should all be considered when choosing the tool for the job. JWT seem to be a popular choice, but is it always justified? Their straightforward implementation might be appealing when hacking a quick application, similar in some ways to why people might prefer to work with NoSQL databases in the same quick-n-dirty context.</p>
-<p>When taking the time to architect a webapp, sessions should be considered. In particular, if you are thinking about using JWT with an hmac algorithm, you should ask yourself - can your application use sessions instead?</p>
-<p>Often, JWT receive the &quot;scaling&quot; argument to their favor. Are JWT easier to scale? Yes! But will that ever be an issue? In my honest opnion - no! The most scale-heavy web applications are using sessions successfully, e.g. Gmail and the rest of G-suite applications. If your webapp becomes Google-scale, then you'll also have excellent engineers by your side who will squeeze out and optimize the performance of a session-based architecture.</p>
-<p>Sessions go well with cookies. Cookies, however, can act as a double-edged swords. In a future post I will elaborate more on this subject. As long as you understand how CSRF exploits work and follow <a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet" target="_blank" rel="noopener">owasp recommendations</a> for a double layer protection, you are safe. Hopefully you can make use of a framework that has these protection layers built-in.</p>
+<p>JWT and sessions each have tradeoffs, which should all be considered when choosing the tool for the job. JWT seem to be a popular choice, but is it always justified? Their straightforward implementation might be appealing when hacking a quick application.</p>
+<p>When taking the time to architect a webapp, sessions should be considered. In particular, if you are thinking about using JWT with an hmac algorithm, i.e. a symmetric algorithm, one should ask - can our application use sessions instead?</p>
+<p>Often, JWT receive the &quot;scaling&quot; argument to their favor. Are JWT easier to scale? Yes! But will that ever be an issue? The most scale-heavy web applications are using sessions successfully, e.g. think Gmail and the rest of G-suite applications. If a webapp becomes Google-scale, then the team will also have excellent engineers to optimize the performance of a session-based architecture.</p>
+<p>Sessions go well with cookies. Cookies, however, can act as a double-edged swords. CSRF exploits should be understood and an app should follow <a target="_blank" rel="noopener" href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet">owasp recommendations</a> for a double layer protection. Hopefully an app can make use of a framework that has these protection layers built-in.</p>
 
 
 <div class="divider-section"></div>
@@ -193,7 +203,7 @@ with a white list, which is exactly how the &quot;continuous guest list check&qu
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2020 Maor Zamski<br>
+      &copy; 2024 Maor Zamski<br>
     </div>
   </div>
 </footer>
@@ -210,7 +220,9 @@ with a white list, which is exactly how the &quot;continuous guest list check&qu
 
 
 
+
 <script src="/js/script.js"></script>
+
 
   </div>
 </body>
